@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Isolated footing</title>
+</head>
+<body>
+  <form action="/result" method="post">
+    <label for="DL">Permanent Load (kN)</label>
+    <input type="text" name="DL" id="DL" placeholder="Permanent Load (kN)">
+    <label for="LL">Variable Load (kN)</label>
+    <input type="text" name="LL" id="LL" placeholder="Variabe Load (kN)">
+    <label for="COL">Column size, larger side (m)</label>
+    <input type="text" name="COL" id="COL" placeholder="Column size, larger side (m)">
+    <label for="BC">Allowabe bearing capacity (kPa)</label>
+    <input type="text" name="BC" id="BC" placeholder="Allowable bearing capacity (kPa)">
+    <label for="FCK">Concrete strength, fck (MPa)</label>
+    <input type="text" name="FCK" id="FCK" placeholder="Concrete strength, fck (MPa)">
+    <label for="FYK">Steel strength, fyk (MPa)</label>
+    <input type="text" name="FYK" id="FYK" placeholder="Steel strength, fyk (MPa)">
+    <button type="submit">Submit</button>
+  </form>
+  {% if b %}
+    <p>Length of side (both sides) = {{ b }} m</p>
+  {% endif %}
+  {% if d %}
+    <p>Thickness = {{ d }} m</p>
+  {% endif %}
+  {% if As %}
+    <p>Reinforcement area (both sides) = {{ As }} mm^2</p>
+  {% endif %}
+  {% if N %}
+    <p>Number of bars (both sides) = {{ N }}</p>
+  {% endif %}
+  {% if s %}
+    <p>Spacing between bars (both sides) = {{ s }} mm</p>
+  {% endif %}
+</body>
+</html>
