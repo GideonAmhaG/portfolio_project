@@ -10,8 +10,8 @@ app.config['SECRET_KEY'] = 'acyst$%gf'
 def index():
     return render_template('index.html')
 
-@app.route('/option', methods=['POST'])
-def option():
+@app.route('/inputs', methods=['POST'])
+def inputs():
     option = request.form['option']
     if option == 'clay':
         return render_template('clay.html')
@@ -20,8 +20,8 @@ def option():
     elif option == 'bearing_c':
         return render_template('bearing_c.html')
 
-@app.route('/clay_soil', methods=['POST'])
-def clay_soil():
+@app.route('/clay_soil_results', methods=['POST'])
+def clay_soil_results():
     dl = float(request.form['DL'])
     ll = float(request.form['LL'])
     col = float(request.form['COL'])
@@ -36,8 +36,8 @@ def clay_soil():
             dl=dl, ll=ll, col=col, cu=cu, df=df, gam=gam, fck=fck,\
             fyk=fyk, bar=bar)
 
-@app.route('/sand_soil', methods=['POST'])
-def sand_soil():
+@app.route('/sand_soil_results', methods=['POST'])
+def sand_soil_results():
     dl = float(request.form['DL'])
     ll = float(request.form['LL'])
     col = float(request.form['COL'])
@@ -52,8 +52,8 @@ def sand_soil():
             dl=dl, ll=ll, col=col, phi=phi, df=df, gam=gam, fck=fck,\
             fyk=fyk, bar=bar)
 
-@app.route('/bearing_cap', methods=['POST'])
-def bearing_cap():
+@app.route('/bearing_cap_results', methods=['POST'])
+def bearing_cap_results():
     dl = float(request.form['DL'])
     ll = float(request.form['LL'])
     col = float(request.form['COL'])

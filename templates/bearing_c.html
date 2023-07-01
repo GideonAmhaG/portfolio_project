@@ -14,34 +14,34 @@
 		<div class="row">
 			<div class="col">
 				<h3 align="center">Inputs</h3>
-				<form action="/bearing_cap" method="post">
+				<form action="/bearing_cap_results" method="post">
 					<div class="col">
-						<label for="DL">Permanent Load (kN)</label>
-						<input class="form-control" type="text" name="DL" id="DL" placeholder="Permanent Load (kN)">
+						<label for="DL">Permanent load, Gk (kN)</label>
+						<input class="form-control" style="width: 27%;" type="text" name="DL" id="DL" placeholder="Permanent load, Gk (kN)">
 					</div>
 					<div class="col">
-						<label for="LL">Variable Load (kN)</label>
-						<input class="form-control" type="text" name="LL" id="LL" placeholder="Variabe Load (kN)">
+						<label for="LL">Variable load, Qk (kN)</label>
+						<input class="form-control" style="width: 27%;" type="text" name="LL" id="LL" placeholder="Variabe load, Qk (kN)">
 					</div>
 					<div class="col">
-						<label for="COL">Column size, larger side (m)</label>
-						<input class="form-control" type="text" name="COL" id="COL" placeholder="Column size, larger side (m)">
+						<label for="COL">Column size, smaller side (m)</label>
+						<input class="form-control" style="width: 27%;" type="text" name="COL" id="COL" placeholder="Column size, smaller side (m)">
 					</div>
 					<div class="col">
-						<label for="BC">Allowable bearing capacity of soil, qall (kPa)</label>
-						<input class="form-control" type="text" name="BC" id="BC" placeholder="Allowable bearing capacity of soil, qall (kPa)">
+						<label for="BC">Allowable bearing capacity, qall (kPa)</label>
+						<input class="form-control" style="width: 27%;" type="text" name="BC" id="BC" placeholder="Allowable bearing capacity, qall (kPa)">
 					</div>
 					<div class="col">
 						<label for="FCK">Concrete strength, fck (MPa)</label>
-						<input class="form-control" type="text" name="FCK" id="FCK" placeholder="Concrete strength, fck (MPa)">
+						<input class="form-control" style="width: 27%;" type="text" name="FCK" id="FCK" placeholder="Concrete strength, fck (MPa)">
 					</div>
 					<div class="col">
 						<label for="FYK">Steel strength, fyk (MPa)</label>
-						<input class="form-control" type="text" name="FYK" id="FYK" placeholder="Steel strength, fyk (MPa)">
+						<input class="form-control" style="width: 27%;" type="text" name="FYK" id="FYK" placeholder="Steel strength, fyk (MPa)">
 					</div>
 					<div class="col">
 						<label for="BAR">Re-Bar diameter (mm)</label>
-						<input class="form-control" type="text" name="BAR" id="BAR" placeholder="Re-Bar diameter (mm)">
+						<input class="form-control" style="width: 27%;" type="text" name="BAR" id="BAR" placeholder="Re-Bar diameter (mm)">
 					</div>
 					<div class="col">
 						<button type="submit" class="btn btn-success">Calculate</button>

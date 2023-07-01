@@ -92,7 +92,6 @@ def sand_iso(DL, LL, col, phi_f, Df, gamma, fck, fyk, bar):
         #main function
         def B_D_rho(D, D_tmp, DL, LL, B, fyk, rho, rho_min):
             sig_p, qa = sig_prop(B, D, col, Df, DL, LL, phi_f, gamma)
-            print(sig_p, qa)
             if sig_p > qa:
                 while sig_p > qa:
                     sig_p, qa = sig_prop(B, D, col, Df, DL, LL, phi_f, gamma)

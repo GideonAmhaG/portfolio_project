@@ -7,60 +7,66 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-	<div class="row">
-		<div class="col">
-			<h3 align="center">Inputs</h3>
-			{% if dl %}
-				<p>Permanent Load = {{ dl }} kN</p>
-			{% endif %}
-			{% if ll %}
-				<p>Variable Load = {{ ll }} kN</p>
-			{% endif %}
-			{% if col %}
-				<p>Column size, larger side = {{ col }} m</p>
-			{% endif %}
-			{% if cu %}
-				<p>Undrained cohesion, cu = {{ cu }} kPa</p>
-			{% endif %}
-			{% if phi %}
-				<p>Angle of friction of soil, &phi; = {{ phi }}&deg;</p>
-			{% endif %}
-			{% if bc %}
-				<p>Allowable bearing capacity of soil, qall = {{ bc }} kPa</p>
-			{% endif %}
-			{% if df %}
-				<p>Depth of foundation, Df = {{ df }} m</p>
-			{% endif %}
-			{% if gam %}
-			<p>Unit weight of soil, &gamma; = {{ gam }} kN/m<sup>3</sup></p>
-			{% endif %}
-			{% if fck %}
-				<p>Concrete strength, fck = {{ fck }} MPa</p>
-			{% endif %}
-			{% if fyk %}
-				<p>Steel strength, fyk = {{ fyk }} MPa</p>
-			{% endif %}
-			{% if bar %}
-				<p>Re-Bar diameter = {{ bar }} mm</p>
-			{% endif %}
+	<div class="container bg-light justify-content-center align-items-center">
+		<div class="row">
+			<h1 class="text-center">Isolated Footing Designer</h1>
 		</div>
-		<div class="col">
-			<h3 align="center">Outputs</h3>
-			{% if b %}
-				<p>Length of side (both sides) = {{ b }} m</p>
-			{% endif %}
-			{% if d %}
-				<p>Thickness = {{ d }} m</p>
-			{% endif %}
-			{% if As %}
-			<p>Reinforcement area (both sides) = {{ As }} mm<sup>2</sup></p>
-			{% endif %}
-			{% if N %}
-				<p>Number of bars (both sides) = {{ N }}</p>
-			{% endif %}
-			{% if s %}
-				<p>Spacing between bars (both sides) = {{ s }} mm</p>
-			{% endif %}
+		<div class="row">
+			<h2 align="center">Results</h2>
+			<div class="col">
+				<h3 align="center">Inputs</h3>
+				{% if dl %}
+					<p>Permanent load, Gk = {{ dl }} kN</p>
+				{% endif %}
+				{% if ll %}
+					<p>Variable load, Qk = {{ ll }} kN</p>
+				{% endif %}
+				{% if col %}
+					<p>Column size, smaller side = {{ col }} m</p>
+				{% endif %}
+				{% if cu %}
+					<p>Undrained cohesion, cu = {{ cu }} kPa</p>
+				{% endif %}
+				{% if phi %}
+					<p>Angle of friction of soil, &phi; = {{ phi }}&deg;</p>
+				{% endif %}
+				{% if bc %}
+					<p>Allowable bearing capacity of soil, qall = {{ bc }} kPa</p>
+				{% endif %}
+				{% if df %}
+					<p>Depth of foundation, Df = {{ df }} m</p>
+				{% endif %}
+				{% if gam %}
+				<p>Unit weight of soil, &gamma; = {{ gam }} kN/m<sup>3</sup></p>
+				{% endif %}
+				{% if fck %}
+					<p>Concrete strength, fck = {{ fck }} MPa</p>
+				{% endif %}
+				{% if fyk %}
+					<p>Steel strength, fyk = {{ fyk }} MPa</p>
+				{% endif %}
+				{% if bar %}
+					<p>Re-Bar diameter = {{ bar }} mm</p>
+				{% endif %}
+			</div>
+			<div class="col">
+				<h3 align="center">Outputs</h3>
+				{% if b %}
+					<p>Length of side, B (both sides) = {{ b }} m</p>
+				{% endif %}
+				{% if d %}
+					<p>Thickness, D = {{ d }} m</p>
+				{% endif %}
+				{% if As %}
+				<p>Reinforcement area, As (both sides) = {{ As }} mm<sup>2</sup></p>
+				{% endif %}
+				{% if N %}
+					<p>Number of bars, N (both sides) = {{ N }}</p>
+				{% endif %}
+				{% if s %}
+					<p>Spacing between bars, S (both sides) = {{ s }} mm</p>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
