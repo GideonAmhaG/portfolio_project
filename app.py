@@ -1,15 +1,59 @@
 from flask import Flask, render_template, request, flash
-from isolated_f import isolated
+from bearing_c import bearing_c_iso
+from clay import clay_iso
+from sand import sand_iso
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'auyst$%gf'
+app.config['SECRET_KEY'] = 'acyst$%gf'
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/result', methods=['POST'])
-def result():
+@app.route('/option', methods=['POST'])
+def option():
+    option = request.form['option']
+    if option == 'clay':
+        return render_template('clay.html')
+    elif option == 'sand':
+        return render_template('sand.html')
+    elif option == 'bearing_c':
+        return render_template('bearing_c.html')
+
+@app.route('/clay_soil', methods=['POST'])
+def clay_soil():
+    dl = float(request.form['DL'])
+    ll = float(request.form['LL'])
+    col = float(request.form['COL'])
+    cu = float(request.form['CU'])
+    df = float(request.form['DF'])
+    gam = float(request.form['GAM'])
+    fck = float(request.form['FCK'])
+    fyk = float(request.form['FYK'])
+    bar = float(request.form['BAR'])
+    b, d, As, N, s = clay_iso(dl, ll, col, cu, df, gam, fck, fyk, bar)
+    return render_template('result.html', b=b, d=d, As=As, N=N, s=s,\
+            dl=dl, ll=ll, col=col, cu=cu, df=df, gam=gam, fck=fck,\
+            fyk=fyk, bar=bar)
+
+@app.route('/sand_soil', methods=['POST'])
+def sand_soil():
+    dl = float(request.form['DL'])
+    ll = float(request.form['LL'])
+    col = float(request.form['COL'])
+    phi = float(request.form['PHI'])
+    df = float(request.form['DF'])
+    gam = float(request.form['GAM'])
+    fck = float(request.form['FCK'])
+    fyk = float(request.form['FYK'])
+    bar = float(request.form['BAR'])
+    b, d, As, N, s = sand_iso(dl, ll, col, phi, df, gam, fck, fyk, bar)
+    return render_template('result.html', b=b, d=d, As=As, N=N, s=s,\
+            dl=dl, ll=ll, col=col, phi=phi, df=df, gam=gam, fck=fck,\
+            fyk=fyk, bar=bar)
+
+@app.route('/bearing_cap', methods=['POST'])
+def bearing_cap():
     dl = float(request.form['DL'])
     ll = float(request.form['LL'])
     col = float(request.form['COL'])
@@ -25,9 +69,9 @@ def result():
     else:
         flash('Calculation successful!', category='success')"""
     
-    b, d, As, N, s = isolated(dl, ll, col, bc, fck, fyk, bar)
-
-    return render_template('index.html', b=b, d=d, As=As, N=N, s=s, bar=bar)
+    b, d, As, N, s = bearing_c_iso(dl, ll, col, bc, fck, fyk, bar)
+    return render_template('result.html', b=b, d=d, As=As, N=N, s=s,\
+            dl=dl, ll=ll, col=col, bc=bc, fck=fck, fyk=fyk, bar=bar)
     
 
 if __name__ == '__main__':

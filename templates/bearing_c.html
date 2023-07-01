@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Isolated footing designer</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container bg-light justify-content-center align-items-center">
+		<div class="row">
+			<h1 class="text-center">Isolated Footing Designer</h1>
+		</div>
+		<div class="row">
+			<div class="col">
+				<h3 align="center">Inputs</h3>
+				<form action="/bearing_cap" method="post">
+					<div class="col">
+						<label for="DL">Permanent Load (kN)</label>
+						<input class="form-control" type="text" name="DL" id="DL" placeholder="Permanent Load (kN)">
+					</div>
+					<div class="col">
+						<label for="LL">Variable Load (kN)</label>
+						<input class="form-control" type="text" name="LL" id="LL" placeholder="Variabe Load (kN)">
+					</div>
+					<div class="col">
+						<label for="COL">Column size, larger side (m)</label>
+						<input class="form-control" type="text" name="COL" id="COL" placeholder="Column size, larger side (m)">
+					</div>
+					<div class="col">
+						<label for="BC">Allowable bearing capacity of soil, qall (kPa)</label>
+						<input class="form-control" type="text" name="BC" id="BC" placeholder="Allowable bearing capacity of soil, qall (kPa)">
+					</div>
+					<div class="col">
+						<label for="FCK">Concrete strength, fck (MPa)</label>
+						<input class="form-control" type="text" name="FCK" id="FCK" placeholder="Concrete strength, fck (MPa)">
+					</div>
+					<div class="col">
+						<label for="FYK">Steel strength, fyk (MPa)</label>
+						<input class="form-control" type="text" name="FYK" id="FYK" placeholder="Steel strength, fyk (MPa)">
+					</div>
+					<div class="col">
+						<label for="BAR">Re-Bar diameter (mm)</label>
+						<input class="form-control" type="text" name="BAR" id="BAR" placeholder="Re-Bar diameter (mm)">
+					</div>
+					<div class="col">
+						<button type="submit" class="btn btn-success">Calculate</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

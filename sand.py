@@ -1,21 +1,21 @@
 import math
 
-def isolated(DL, LL, col, bc, fck, fyk, bar):
+def sand_iso(DL, LL, col, phi_f, Df, gamma, fck, fyk, bar):
     #variables
     pi = math.pi
     B_initial = col
     D_initial = 0.3
     phi = bar / 1000
-    Df = 3
     rho_initial = 0.0025
     rho_min = max((0.26 * (1.43 / fyk) * 0.21 * (fck ** (2 / 3))) , 0.0013)
     cover = 0.075
     cover_side = 0.01
 
     if DL >= 200 and DL <= 4100 and LL >= 130 and LL <= 2100 and col >= 0.1\
-            and col <= 1.5 and bc >= 50 and bc <= 1000 and fck >= 25\
+            and col <= 1.5 and phi_f >= 1 and phi_f <= 70 and fck >= 25\
             and fck <= 100 and fyk >= 100 and fyk <= 1000 and bar >= 12\
-            and bar <= 32:
+            and bar <= 32 and Df > 0 and Df <= 10 and gamma > 1\
+            and gamma <= 30:
         #functions
         def d_avg(D, phi, cov):
             d = ((D - cov - phi - (phi / 2)) + (D - cov - phi)) / 2
@@ -61,13 +61,22 @@ def isolated(DL, LL, col, bc, fck, fyk, bar):
             As_punch = ((4 * col) + (4 * pi * d)) * d
             ved_punch = (sig_s * Ap2_punch) / As_punch
             return ved_punch, vrd
-        def sig_prop(B, D, col, Df, DL, LL):
+        def terzaghi(phi):
+            phi_r = math.radians(phi)
+            Nq = math.exp(((270-phi)/180)*math.pi*math.tan(phi_r))/(2*(math.cos(math.radians(45+(phi/2))))**2)
+            Nc = (Nq-1)/(math.tan(phi_r))
+            Ngamma = (2*(Nq+1)*math.tan(phi_r))/(1+(0.4*math.sin(math.radians(4*phi))))
+            return Nc, Nq, Ngamma
+        def sig_prop(B, D, col, Df, DL, LL, phi, gamma):
             SW_conc = 24 * B * B * D
             SW_fill = (((B * B) - (col * col))) * Df * 0
             SW = SW_conc + SW_fill
             p_p = DL + SW + LL
             sig_p = p_p / (B * B)
-            return sig_p
+            Nc, Nq, Ngamma = terzaghi(phi)
+            qu = (gamma * Df * Nq) + (0.4 * B * gamma * Ngamma)
+            qa = qu / 3
+            return sig_p, qa
         def zed(D, phi, m, B, fck):
             d = d_avg(D, phi, cover)
             z = d * (0.5 + (0.25 - (m / (B * (d ** 2) * (fck * 1000) * 1.134))) ** 0.5)
@@ -81,15 +90,16 @@ def isolated(DL, LL, col, bc, fck, fyk, bar):
             return med, mrd
 
         #main function
-        def B_D_rho(D, D_tmp, bc, DL, LL, B, fyk, rho, rho_min):
-            sig_p = sig_prop(B, D, col, Df, DL, LL)
-            if sig_p > bc:
-                while sig_p > bc:
-                    sig_p = sig_prop(B, D, col, Df, DL, LL)
+        def B_D_rho(D, D_tmp, DL, LL, B, fyk, rho, rho_min):
+            sig_p, qa = sig_prop(B, D, col, Df, DL, LL, phi_f, gamma)
+            print(sig_p, qa)
+            if sig_p > qa:
+                while sig_p > qa:
+                    sig_p, qa = sig_prop(B, D, col, Df, DL, LL, phi_f, gamma)
                     B += 0.0005
             else:
-                while sig_p <= bc:
-                    sig_p = sig_prop(B, D, col, Df, DL, LL)
+                while sig_p <= qa:
+                    sig_p, qa = sig_prop(B, D, col, Df, DL, LL, phi_f, gamma)
                     B -= 0.0005
             p_s = (1.35 * DL) + (1.5 * LL)
             sig_s = p_s / (B * B)
@@ -128,9 +138,9 @@ def isolated(DL, LL, col, bc, fck, fyk, bar):
                     rho += 0.0000005
             return D, B, rho
 
-        D_final, B_final, rho_final = B_D_rho(D_initial, D_initial, bc, DL, LL, B_initial, fyk, rho_initial, rho_min)
+        D_final, B_final, rho_final = B_D_rho(D_initial, D_initial, DL, LL, B_initial, fyk, rho_initial, rho_min)
         if D_final != D_initial or B_final != B_initial or rho_final != rho_initial:
-            D_final, B_final, rho_final = B_D_rho(D_final, D_final, bc, DL, LL, B_final, fyk, rho_final, rho_min)
+            D_final, B_final, rho_final = B_D_rho(D_final, D_final, DL, LL, B_final, fyk, rho_final, rho_min)
             d_final = d_avg(D_final, phi, cover)
             As = rho_final * B_final * d_final * 1000000
             N = math.ceil(As / (math.pi * (((phi / 2) * 1000) ** 2)))
