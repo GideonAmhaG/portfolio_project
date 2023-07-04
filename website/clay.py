@@ -1,6 +1,6 @@
 import math
 
-def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar):
+def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar, covr):
     #variables
     pi = math.pi
     B_initial = col
@@ -8,7 +8,7 @@ def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar):
     phi = bar / 1000
     rho_initial = 0.0025
     rho_min = max((0.26 * (1.43 / fyk) * 0.21 * (fck ** (2 / 3))) , 0.0013)
-    cover = 0.075
+    cover = covr / 1000
     cover_side = 0.01
 
     if DL >= 200 and DL <= 4100 and LL >= 130 and LL <= 2100 and col >= 0.1\
@@ -68,7 +68,8 @@ def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar):
             p_p = DL + SW + LL
             sig_p = p_p / (B * B)
             qu = (1.3 * cu * 5.7) + (gamma * Df)
-            qa = qu / 3
+            FS = 3
+            qa = qu / FS
             return sig_p, qa
         def zed(D, phi, m, B, fck):
             d = d_avg(D, phi, cover)
@@ -85,6 +86,9 @@ def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar):
         #main function
         def B_D_rho(D, D_tmp, DL, LL, B, fyk, rho, rho_min):
             sig_p, qa = sig_prop(B, D, col, Df, DL, LL, cu, gamma)
+            q_all = qa
+            FOS = 3
+            q_ult = q_all * FOS
             if sig_p > qa:
                 while sig_p > qa:
                     sig_p, qa = sig_prop(B, D, col, Df, DL, LL, cu, gamma)
@@ -128,11 +132,11 @@ def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar):
                 while med >= mrd:
                     med, mrd = med_mrd(sig_s, B, col, D, phi, fck, rho, rho_min, fyk)
                     rho += 0.0000005
-            return D, B, rho
+            return D, B, rho, q_all, FOS, q_ult
 
-        D_final, B_final, rho_final = B_D_rho(D_initial, D_initial, DL, LL, B_initial, fyk, rho_initial, rho_min)
+        D_final, B_final, rho_final, q_all, FOS, q_ult = B_D_rho(D_initial, D_initial, DL, LL, B_initial, fyk, rho_initial, rho_min)
         if D_final != D_initial or B_final != B_initial or rho_final != rho_initial:
-            D_final, B_final, rho_final = B_D_rho(D_final, D_final, DL, LL, B_final, fyk, rho_final, rho_min)
+            D_final, B_final, rho_final, q_all, FOS, q_ult = B_D_rho(D_final, D_final, DL, LL, B_final, fyk, rho_final, rho_min)
             d_final = d_avg(D_final, phi, cover)
             As = rho_final * B_final * d_final * 1000000
             N = math.ceil(As / (math.pi * (((phi / 2) * 1000) ** 2)))
@@ -142,6 +146,6 @@ def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar):
             s_ini = math.floor(s_a / 10) * 10
             D_f = round((math.ceil(D_final / 0.05) * 0.05), 2)
             s = min(s_ini, 400, (3 * D_f * 1000))
-        return [B_f, D_f, As_f, N, s]
+        return [B_f, D_f, As_f, N, s, q_all, FOS, q_ult]
     else:
-        return [0, 0, 0, 0, 0]
+        return [0, 0, 0, 0, 0, 0, 0, 0]

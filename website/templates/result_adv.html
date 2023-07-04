@@ -38,6 +38,9 @@
 		{% if bar %}
 			<p>Re-Bar diameter = {{ bar }} mm</p>
 		{% endif %}
+		{% if cov %}
+			<p>Cover = {{ cov }} mm</p>
+		{% endif %}
 	</div>
 	<div class="col">
 		<h3>Outputs</h3>
@@ -47,14 +50,25 @@
 		{% if d %}
 			<p>Thickness, D = {{ d }} m</p>
 		{% endif %}
-		{% if As %}
-		<p>Reinforcement area, As (both sides) = {{ As }} mm<sup>2</sup></p>
-		{% endif %}
 		{% if N %}
-			<p>Number of bars, N (both sides) = {{ N }}</p>
+			<p>Number of bars, N (both sides, bottom) = {{ N }}</p>
 		{% endif %}
 		{% if s %}
-			<p>Spacing between bars, S (both sides) = {{ s }} mm</p>
+			<p>Spacing between bars, S (both sides, bottom) = {{ s }} mm</p>
+		{% endif %}
+		<br>
+		<h3>Additional Outputs</h3>
+		{% if As %}
+			<p>Reinforcement area, As (both sides, bottom) = {{ As }} mm<sup>2</sup></p>
+		{% endif %}
+		{% if qu %}
+			<p>Ultimate bearing capacity, qult = {{ qu }} kPa</p>
+		{% endif %}
+		{% if fs %}
+			<p>Factor of safety, FS = {{ fs }}</p>
+		{% endif %}
+		{% if qa %}
+			<p>Allowable bearing capacity, qall = {{ qa }} kPa</p>
 		{% endif %}
 	</div>
 </div>

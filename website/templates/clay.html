@@ -45,14 +45,24 @@
 						<label for="BAR">Re-Bar diameter (mm)</label>
 						<input class="form-control" style="width: 59%;" type="text" name="BAR" id="BAR" placeholder="Re-Bar diameter (mm)">
 					</div>
+					<br>
+					<div class="col">
+						<label for="COV">Cover - </label>
+							<select class="form-select" id="COV" name="COV">
+							    <option value="40">40 mm (Footing on lean concrete)</option>
+							    <option value="75">75 mm (Footing on soil)</option>
+							</select>
+					</div>
 				</div>
 			</div>	
 			<div class="row pt-4">
 				<div class="col">
-					<button type="submit" name="submit_type" value="regular" class="btn btn-success" style="width: 50%;">Calculate-Regular</button>
+					<div class="row justify-content-end">
+						<button type="submit" name="submit_type" value="regular" class="btn btn-success" style="width: 40%;">Calculate-Regular</button>
+					</div>
 				</div>
 				<div class="col">
-					<button type="submit" name="submit_type" value="advanced" class="btn btn-success" style="width: 50%;">Calculate-Advanced</button>
+					<button type="submit" name="submit_type" value="advanced" class="btn btn-warning" style="width: 40%;">Calculate-Advanced</button>
 				</div>
 			</div>
 		</form>
