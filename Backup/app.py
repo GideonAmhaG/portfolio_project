@@ -1,13 +1,21 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import login_user, login_required, logout_user, current_user, LoginManager
+from models import db, User, Note
 from bearing_c import bearing_c_iso
 from clay import clay_iso
 from sand import sand_iso
 
+
+DB_NAME = "adv_results.db"
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'acyst$%gf'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+db.init_app(app)
+with app.app_context():
+    db.create_all()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Advanced Results{% endblock %}
+{% block header %}Advanced Results{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col">
+		<h3>Inputs</h3>
+		{% if dl %}
+			<p>Permanent load, Gk = {{ dl }} kN</p>
+		{% endif %}
+		{% if ll %}
+			<p>Variable load, Qk = {{ ll }} kN</p>
+		{% endif %}
+		{% if col %}
+			<p>Column size, smaller side = {{ col }} m</p>
+		{% endif %}
+		{% if cu %}
+			<p>Undrained cohesion, cu = {{ cu }} kPa</p>
+		{% endif %}
+		{% if phi %}
+			<p>Angle of friction of soil, &phi; = {{ phi }}&deg;</p>
+		{% endif %}
+		{% if bc %}
+			<p>Allowable bearing capacity of soil, qall = {{ bc }} kPa</p>
+		{% endif %}
+		{% if df %}
+			<p>Depth of foundation, Df = {{ df }} m</p>
+		{% endif %}
+		{% if gam %}
+		<p>Unit weight of soil, &gamma; = {{ gam }} kN/m<sup>3</sup></p>
+		{% endif %}
+		{% if fck %}
+			<p>Concrete strength, fck = {{ fck }} MPa</p>
+		{% endif %}
+		{% if fyk %}
+			<p>Steel strength, fyk = {{ fyk }} MPa</p>
+		{% endif %}
+		{% if bar %}
+			<p>Re-Bar diameter = {{ bar }} mm</p>
+		{% endif %}
+	</div>
+	<div class="col">
+		<h3>Outputs</h3>
+		{% if b %}
+			<p>Length of side, B (both sides) = {{ b }} m</p>
+		{% endif %}
+		{% if d %}
+			<p>Thickness, D = {{ d }} m</p>
+		{% endif %}
+		{% if As %}
+		<p>Reinforcement area, As (both sides) = {{ As }} mm<sup>2</sup></p>
+		{% endif %}
+		{% if N %}
+			<p>Number of bars, N (both sides) = {{ N }}</p>
+		{% endif %}
+		{% if s %}
+			<p>Spacing between bars, S (both sides) = {{ s }} mm</p>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
