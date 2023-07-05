@@ -11,18 +11,34 @@ views = Blueprint('views', __name__)
 
 
 @views.route('/')
-def index():
+def home():
     return render_template('home.html', user=current_user)
 
-@views.route('/inputs', methods=['POST'])
-def inputs():
-    option = request.form['option']
-    if option == 'clay':
-        return render_template('clay.html', user=current_user)
-    elif option == 'sand':
-        return render_template('sand.html', user=current_user)
-    elif option == 'bearing_c':
-        return render_template('bearing_c.html', user=current_user)
+
+@views.route('/found_type', methods=['GET', 'POST'])
+def found_type():
+    if request.method == 'POST': 
+        option = request.form['option']
+        if not option:
+            flash('Please select an option.', category='error')
+        else:
+            if option == 'iso_square':
+                return redirect(url_for('views.soil_type'))
+    return render_template('found_type.html', user=current_user)
+
+
+@views.route('/soil_type', methods=['GET', 'POST'])
+def soil_type():
+    if request.method == 'POST': 
+        option = request.form['option']
+        if option == 'clay':
+            return render_template('clay.html', user=current_user)
+        elif option == 'sand':
+            return render_template('sand.html', user=current_user)
+        elif option == 'bearing_c':
+            return render_template('bearing_c.html', user=current_user)
+    return render_template('soil_type.html', user=current_user)
+
 
 @views.route('/clay_soil_results', methods=['POST'])
 def clay_soil_results():
@@ -178,7 +194,7 @@ def bearing_cap_results():
 
 @views.route('/save', methods=['GET', 'POST'])
 @login_required
-def home():
+def save():
     if request.method == 'POST': 
         note = request.form.get('note')#Gets the note from the HTML 
 
@@ -190,7 +206,7 @@ def home():
             db.session.commit()
             flash('Note added!', category='success')
 
-    return render_template("home.html", user=current_user)
+    return render_template("saved.html", user=current_user)
 
 
 @views.route('/delete-note', methods=['POST'])
