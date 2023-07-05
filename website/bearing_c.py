@@ -1,6 +1,6 @@
 import math
 
-def bearing_c_iso(DL, LL, col, bc, fck, fyk, bar):
+def bearing_c_iso(DL, LL, col, bc, fck, fyk, bar, covr):
     #variables
     pi = math.pi
     B_initial = col
@@ -9,7 +9,7 @@ def bearing_c_iso(DL, LL, col, bc, fck, fyk, bar):
     Df = 3
     rho_initial = 0.0025
     rho_min = max((0.26 * (1.43 / fyk) * 0.21 * (fck ** (2 / 3))) , 0.0013)
-    cover = 0.075
+    cover = covr / 1000
     cover_side = 0.01
 
     if DL >= 200 and DL <= 4100 and LL >= 130 and LL <= 2100 and col >= 0.1\

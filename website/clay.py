@@ -86,9 +86,10 @@ def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar, covr):
         #main function
         def B_D_rho(D, D_tmp, DL, LL, B, fyk, rho, rho_min):
             sig_p, qa = sig_prop(B, D, col, Df, DL, LL, cu, gamma)
-            q_all = qa
+            q_all = math.ceil(qa * 10) / 10
             FOS = 3
-            q_ult = q_all * FOS
+            qultm = q_all * FOS 
+            q_ult = math.ceil(qultm * 10) / 10
             if sig_p > qa:
                 while sig_p > qa:
                     sig_p, qa = sig_prop(B, D, col, Df, DL, LL, cu, gamma)

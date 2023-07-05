@@ -12,7 +12,7 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def index():
-    return render_template('index.html', user=current_user)
+    return render_template('home.html', user=current_user)
 
 @views.route('/inputs', methods=['POST'])
 def inputs():
@@ -75,38 +75,108 @@ def clay_soil_results():
                 return redirect(url_for('auth.login'))
     return render_template('clay.html', user=current_user)
 
+
 @views.route('/sand_soil_results', methods=['POST'])
 def sand_soil_results():
-    dl = float(request.form['DL'])
-    ll = float(request.form['LL'])
-    col = float(request.form['COL'])
-    phi = float(request.form['PHI'])
-    df = float(request.form['DF'])
-    gam = float(request.form['GAM'])
-    fck = float(request.form['FCK'])
-    fyk = float(request.form['FYK'])
-    bar = float(request.form['BAR'])
-    b, d, As, N, s = sand_iso(dl, ll, col, phi, df, gam, fck, fyk, bar)
-    return render_template('result.html', b=b, d=d, As=As, N=N, s=s,\
-            dl=dl, ll=ll, col=col, phi=phi, df=df, gam=gam, fck=fck,\
-            fyk=fyk, bar=bar, user=current_user)
+    dl = request.form['DL']
+    ll = request.form['LL']
+    col = request.form['COL']
+    phi = request.form['PHI']
+    df = request.form['DF']
+    gam = request.form['GAM']
+    fck = request.form['FCK']
+    fyk = request.form['FYK']
+    bar = request.form['BAR']
+    cov = request.form['COV']
+    var_list = [dl, ll, col, phi, df, gam, fck, fyk, bar, cov]
+	
+    def is_float(value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+	
+    if any(not var for var in var_list):
+        flash('An input field is blank.', category='error')
+    elif any(not is_float(var) for var in var_list):    
+        flash('An input field is not a number.', category='error')
+    else:
+        dl = float(request.form['DL'])
+        ll = float(request.form['LL'])
+        col = float(request.form['COL'])
+        phi = float(request.form['PHI'])
+        df = float(request.form['DF'])
+        gam = float(request.form['GAM'])
+        fck = float(request.form['FCK'])
+        fyk = float(request.form['FYK'])
+        bar = float(request.form['BAR'])
+        cov = float(request.form['COV'])
+        submit_type = request.form['submit_type']
+        user = current_user
+        b, d, As, N, s, qa, fs, qu = sand_iso(dl, ll, col, phi, df, gam, fck, fyk, bar, cov)
+        if submit_type == 'regular':
+            return render_template('result.html', b=b, d=d, N=N, s=s,\
+                    user=current_user)
+        elif submit_type == 'advanced':
+            if user.is_authenticated:
+                return render_template('result_adv.html', b=b, d=d, As=As, N=N, s=s,\
+                        qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, col=col, phi=phi, df=df, gam=gam, fck=fck,\
+                        fyk=fyk, bar=bar, cov=cov, user=current_user)
+            else:
+                return redirect(url_for('auth.login'))
+    return render_template('sand.html', user=current_user)
+
 
 @views.route('/bearing_cap_results', methods=['POST'])
 def bearing_cap_results():
-    dl = float(request.form['DL'])
-    ll = float(request.form['LL'])
-    col = float(request.form['COL'])
-    bc = float(request.form['BC'])
-    fck = float(request.form['FCK'])
-    fyk = float(request.form['FYK'])
-    bar = float(request.form['BAR'])
-
-    b, d, As, N, s = bearing_c_iso(dl, ll, col, bc, fck, fyk, bar)
-    return render_template('result.html', b=b, d=d, As=As, N=N, s=s,\
-            dl=dl, ll=ll, col=col, bc=bc, fck=fck, fyk=fyk, bar=bar, user=current_user)
+    dl = request.form['DL']
+    ll = request.form['LL']
+    col = request.form['COL']
+    bc = request.form['BC']
+    fck = request.form['FCK']
+    fyk = request.form['FYK']
+    bar = request.form['BAR']
+    cov = request.form['COV']
+    var_list = [dl, ll, col, bc, fck, fyk, bar, cov]
+	
+    def is_float(value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+	
+    if any(not var for var in var_list):
+        flash('An input field is blank.', category='error')
+    elif any(not is_float(var) for var in var_list):    
+        flash('An input field is not a number.', category='error')
+    else:
+        dl = float(request.form['DL'])
+        ll = float(request.form['LL'])
+        col = float(request.form['COL'])
+        bc = float(request.form['BC'])
+        fck = float(request.form['FCK'])
+        fyk = float(request.form['FYK'])
+        bar = float(request.form['BAR'])
+        cov = float(request.form['COV'])
+        submit_type = request.form['submit_type']
+        user = current_user
+        b, d, As, N, s = bearing_c_iso(dl, ll, col, bc, fck, fyk, bar, cov)
+        if submit_type == 'regular':
+            return render_template('result.html', b=b, d=d, N=N, s=s,\
+                    user=current_user)
+        elif submit_type == 'advanced':
+            if user.is_authenticated:
+                return render_template('result_adv.html', b=b, d=d, As=As, N=N, s=s,\
+                        dl=dl, ll=ll, col=col, bc=bc, fck=fck,\
+                        fyk=fyk, bar=bar, cov=cov, user=current_user)
+            else:
+                return redirect(url_for('auth.login'))
+    return render_template('bearing_c.html', user=current_user)
     
 
-@views.route('/home', methods=['GET', 'POST'])
+@views.route('/save', methods=['GET', 'POST'])
 @login_required
 def home():
     if request.method == 'POST': 
