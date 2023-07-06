@@ -24,11 +24,8 @@ def about():
 def found_type():
     if request.method == 'POST': 
         option = request.form['option']
-        if not option:
-            flash('Please select an option.', category='error')
-        else:
-            if option == 'iso_square':
-                return redirect(url_for('views.soil_type'))
+        if option == 'iso_square':
+            return redirect(url_for('views.soil_type'))
     return render_template('found_type.html', user=current_user)
 
 
