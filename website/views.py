@@ -15,10 +15,16 @@ def home():
     return render_template('home.html', user=current_user)
 
 
+@views.route('/about')
+def about():
+    return render_template('about.html', user=current_user)
+
+
 @views.route('/found_type', methods=['GET', 'POST'])
 def found_type():
     if request.method == 'POST': 
         option = request.form['option']
+        print(option)
         if not option:
             flash('Please select an option.', category='error')
         else:
