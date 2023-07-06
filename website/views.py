@@ -20,6 +20,11 @@ def about():
     return render_template('about.html', user=current_user)
 
 
+@views.route('/faq')
+def faq():
+    return render_template('faq.html', user=current_user)
+
+
 @views.route('/found_type', methods=['GET', 'POST'])
 def found_type():
     if request.method == 'POST': 

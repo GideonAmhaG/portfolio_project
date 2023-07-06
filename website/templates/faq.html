@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}FAQ{% endblock %}
+{% block header %}FAQ{% endblock %}
+{% block content %}
+<p>These are the answers to some of the most commonly asked questions.</p>
+<ul>
+	<li><p class="text-danger">Use at your own discretion. The web tool is still in its development phase. Though the results are accurate, we will not take any responsibility for issues that may arise from using this web tool for design.</p></li>
+	<li><p>The design code used is Eurocode and the results obtained apply to other codes that originate from Eurocode, such as EBCS.</p></li>
+	<li><p>The allowable/permissible design approach (as per Eurocode) is used with a factor of safety of 3 to account for settlement requirements.</p></li>
+	<li><p>Terzaghi's bearing capacity equations and factors are used.</p></li>
+	<li><p>If you obtained blank results, it is because you used unrealistically large or small numbers in the input section.</p></li>
+	<li><p>You need to log in to conduct advanced calculations.</p></li>
+	<li><p>Advanced calculations give more comprehensive results.</p></li>
+	<li><p>If your column is not a square column, use the smaller side as indicated in the input section.</p></li>
+	<li><p>The web tool can be used for cases where super-structure moments are transferred to the foundations but have negligible values (transferred moments are less than 10 percent of transferred loads).</p></li>
+	<li><p>The effects of groundwater are neglected. Use for cases where groundwater has no effect on the foundation.</p></li>
+</ul>
+{% endblock %}
