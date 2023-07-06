@@ -24,7 +24,6 @@ def about():
 def found_type():
     if request.method == 'POST': 
         option = request.form['option']
-        print(option)
         if not option:
             flash('Please select an option.', category='error')
         else:
