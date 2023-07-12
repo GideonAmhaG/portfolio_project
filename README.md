@@ -8,7 +8,7 @@ Building foundations are the backbone of any structure. That’s why I created a
 
 
 
-![Logo](https://imgur.com/JJ2nFtL)
+![Logo](https://github.com/GideonAmhaG/portfolio_project/blob/main/logorot.png)
 
 
 ## Installation
@@ -78,5 +78,5 @@ Confirm or question any beliefs I held prior to this project: This project has c
 
 ## Screenshots
 
-![Web app Screenshot](https://imgur.com/C2JH3oy)
+![Web app Screenshot](https://github.com/GideonAmhaG/portfolio_project/blob/main/website_screenshot.png)
 
