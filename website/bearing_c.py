@@ -1,3 +1,4 @@
+""" for cases where bearing capacity is provided """
 import math
 
 def bearing_c_iso(DL, LL, col, bc, fck, fyk, bar, covr):

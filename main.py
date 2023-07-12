@@ -1,3 +1,6 @@
+""" main file to be run """
+
+
 from website import create_app
 
 app = create_app()

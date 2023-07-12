@@ -1,3 +1,6 @@
+""" handles authentication of users """
+
+
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +13,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """ handles login """
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -31,12 +35,14 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    """ logs out the logged in user """
     logout_user()
     return redirect(url_for('views.home'))
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    """ handles sign up """
     if request.method == 'POST':
         email = request.form.get('email')
         first_name = request.form.get('firstName')

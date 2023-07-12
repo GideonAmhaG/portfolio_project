@@ -1,3 +1,4 @@
+""" for clay soil """
 import math
 
 def clay_iso(DL, LL, col, cu, Df, gamma, fck, fyk, bar, covr):

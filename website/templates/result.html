@@ -4,6 +4,9 @@
 {% block content %}
 <div class="row">
 	<div class="col">
+		{% if text %}
+			<p class="text-danger">{{ text }} have entered impractical inputs.</p>
+		{% endif %}
 		{% if b %}
 			<p>Length of side, B (both sides) = {{ b }} m</p>
 		{% endif %}

@@ -1,3 +1,4 @@
+""" for sand soil """
 import math
 
 def sand_iso(DL, LL, col, phi_f, Df, gamma, fck, fyk, bar, covr):
