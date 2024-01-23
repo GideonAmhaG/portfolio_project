@@ -5,6 +5,10 @@
 <div class="row">
 	<div class="col">
 		<h3>Inputs</h3>
+		{% if text %}
+			<p class="text-danger">{{ text }} have entered impractical inputs.
+				Read FAQ - Acceptable inputs section for a range of acceptable values.</p>
+		{% endif %}
 		{% if dl %}
 			<p>Permanent load (Unfactored), Gk = {{ dl }} kN</p>
 		{% endif %}

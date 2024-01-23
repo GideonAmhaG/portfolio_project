@@ -99,7 +99,7 @@ def clay_soil_results():
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
-                return render_template('result.html', b=b, d=d, N=N, s=s,\
+                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar,\
                         user=current_user)
         elif submit_type == 'advanced':
             if user.is_authenticated:
@@ -158,7 +158,7 @@ def sand_soil_results():
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
-                return render_template('result.html', b=b, d=d, N=N, s=s,\
+                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar,\
                         user=current_user)
         elif submit_type == 'advanced':
             if user.is_authenticated:
@@ -213,7 +213,7 @@ def bearing_cap_results():
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
-                return render_template('result.html', b=b, d=d, N=N, s=s,\
+                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar,\
                         user=current_user)
         elif submit_type == 'advanced':
             if user.is_authenticated:

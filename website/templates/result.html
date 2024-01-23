@@ -4,8 +4,11 @@
 {% block content %}
 <div class="row">
 	<div class="col">
+		<h4>Numerical</h4>
+		<br>
 		{% if text %}
-			<p class="text-danger">{{ text }} have entered impractical inputs.</p>
+			<p class="text-danger">{{ text }} have entered impractical inputs.
+				Read FAQ - Acceptable inputs section for a range of acceptable values.</p>
 		{% endif %}
 		{% if b %}
 			<p>Length of side, B (both sides) = {{ b }} m</p>
@@ -18,6 +21,151 @@
 		{% endif %}
 		{% if s %}
 			<p>Spacing between bars, S (both sides, bottom) = {{ s }} mm</p>
+		{% endif %}
+	</div>
+	<div class="col">
+		{% if b %}
+			<h4>Engineering Drawing<h4>
+			<br>
+			<canvas id="myCanvas"></canvas>
+			<input type="hidden" id="b-value" value="{{ b }}">
+			<input type="hidden" id="d-value" value="{{ d }}">
+			<input type="hidden" id="N-value" value="{{ N }}">
+			<input type="hidden" id="s-value" value="{{ s }}">
+			<input type="hidden" id="bar-value" value="{{ bar }}">
+			<script>
+				const canvas = document.getElementById("myCanvas");
+				const ctx = canvas.getContext("2d");
+				canvas.width = 500;
+				canvas.height = 500;
+				const b = parseFloat(document.getElementById('b-value').value);
+				const d = parseFloat(document.getElementById('d-value').value);
+				const N = parseFloat(document.getElementById('N-value').value);
+				const s = parseFloat(document.getElementById('s-value').value);
+				const bar = parseFloat(document.getElementById('bar-value').value);
+				const xCor = 20;
+				const yCor = 130;
+				const mul = 60;
+				const x = mul * b
+				const y1 = mul * b
+				const y2 = mul * d
+				const vertSpace = 50 + y2;
+				const xScale = 0.75;
+				const y1Scale = 0.75;
+				const vsScale = 0.2;
+				const dimWidth = 20;
+				const offset1 = 10;
+				const offset2 = 20;
+				const offset3 = 20;
+				// const scale = 28.7;
+				ctx.strokeStyle = "black";
+				ctx.fillStyle = "transparent";
+				ctx.lineWidth = 2;
+				ctx.rect(xCor, yCor, x, y1);
+				ctx.rect(xCor, yCor - vertSpace, x, y2);
+				ctx.stroke();
+				ctx.beginPath();
+				// plan view
+				ctx.moveTo(xCor + offset2, yCor + offset1);
+				ctx.lineTo(xCor + offset2, yCor + y1 - offset1);
+				ctx.moveTo(xCor + offset1, yCor + offset2);
+				ctx.lineTo(xCor + x - offset1, yCor + offset2);
+				ctx.moveTo(xCor + x - offset1, yCor + (y1 * y1Scale) - dimWidth);
+				ctx.lineTo(xCor + x - offset1, yCor + (y1 * y1Scale) + dimWidth);
+				ctx.moveTo(xCor + (x * xScale) - dimWidth, yCor + y1 - offset1);
+				ctx.lineTo(xCor + (x * xScale) + dimWidth, yCor + y1 - offset1);
+				// sectional view  
+				ctx.moveTo(xCor + offset1, yCor - vertSpace + y2 - 5);
+				ctx.lineTo(xCor + x - offset1, yCor - vertSpace + y2 - 5);  
+				ctx.stroke();
+				const numDots = N;         
+				const dotRadius = mul * 0.02;
+				const width = x;        
+				const spacing = width / (numDots + 1);  
+				for (let i = 0; i < numDots; i++)
+				{
+					const x = xCor + (spacing * (i + 1));  
+					const y = yCor - vertSpace + y2 - offset1;  
+					ctx.beginPath();
+					ctx.arc(x, y, dotRadius, 0, 2 * Math.PI);  
+					ctx.fillStyle = "black"; 
+					ctx.fill();
+					ctx.closePath();
+				}
+				// arrows
+				const data =
+				[
+					{ startX: xCor + x + offset1, startY: yCor, endX: xCor + x + offset1, endY: yCor + y1 },
+					{ startX: xCor, startY: yCor - offset3, endX: x + xCor, endY: yCor - offset3 },
+					{ startX: xCor + x + offset1, startY: yCor - vertSpace, endX: xCor + x + offset1, endY: yCor - vertSpace + y2 },
+					{ startX: xCor + (x * xScale), startY: yCor + offset2, endX: xCor + (x * xScale), endY: yCor + y1 - offset1 },
+					{ startX: xCor + offset2, startY: yCor + (y1 * y1Scale), endX: xCor + x - offset1, endY: yCor + (y1 * y1Scale) },
+				];
+				const lineWidth = 1;
+				const arrowHeadSize = 5;
+				const fontSize = 12;
+				const fontFamily = 'Arial';
+				const textColor = 'black';
+				function drawArrowhead(ctx, startX, startY, endX, endY, size)
+				{
+					const angle = Math.atan2(endY - startY, endX - startX);
+					const headLength = size * 4; 
+					const headWidth = size * 4; 
+					const arrowX1 = endX - headLength * Math.cos(angle + Math.PI / 3);
+					const arrowY1 = endY - headLength * Math.sin(angle + Math.PI / 3);
+					const arrowX2 = endX - headLength * Math.cos(angle - Math.PI / 3);
+					const arrowY2 = endY - headLength * Math.sin(angle - Math.PI / 3);
+					const offsetX1 = headWidth * Math.cos(angle + Math.PI / 2);
+					const offsetY1 = headWidth * Math.sin(angle + Math.PI / 2);
+					const offsetX2 = headWidth * Math.cos(angle - Math.PI / 2);
+					const offsetY2 = headWidth * Math.sin(angle - Math.PI / 2);
+					ctx.beginPath();
+					ctx.moveTo(endX, endY);
+					ctx.lineTo(arrowX1 + offsetX1, arrowY1 + offsetY1);
+					ctx.lineTo(arrowX2 + offsetX2, arrowY2 + offsetY2);
+					ctx.closePath();
+					ctx.fillStyle = 'black';
+					ctx.fill();
+				}
+				function drawDimensionLine(ctx, lineData)
+				{
+					const { startX, startY, endX, endY } = lineData;
+					ctx.beginPath();
+					ctx.moveTo(startX, startY);
+					ctx.lineTo(endX, endY);
+					ctx.lineWidth = lineWidth;
+					ctx.strokeStyle = 'black';
+					ctx.stroke();
+					drawArrowhead(ctx, startX, startY, endX, endY, arrowHeadSize);
+					drawArrowhead(ctx, endX, endY, startX, startY, arrowHeadSize);
+				}
+				for (const lineData of data)
+				{
+					drawDimensionLine(ctx, lineData);
+				}
+				// text
+				
+				const scaleFont = 1.1;
+				var barFontScale = 1;
+				var offset4 = 40;
+				if (b < 2.3)
+				{
+					barFontScale = barFontScale < (x * 0.0075) ? barFontScale : (x * 0.0075);
+					offset4 = x * 0.27;
+				} 
+				function drawText(text, x, y, fontScale)
+				{
+					ctx.font = `${fontScale}px ${fontFamily}`;
+					ctx.textAlign = 'center';
+					ctx.textBaseline = 'middle';
+					ctx.fillStyle = '#000'; 
+					ctx.fillText(text.toString(), x, y); 
+				}
+				drawText(d + " m", xCor + x + 35, yCor - vertSpace + (y2 * 0.5), fontSize * scaleFont );
+				drawText(b + " m", xCor + x + 35, yCor + (y1 * 0.5), fontSize * scaleFont);
+				drawText(b + " m", xCor + (x * 0.5), yCor - offset3 - 10, fontSize * scaleFont);
+				drawText(N + "H" + bar + " @ " + s, xCor + (x * xScale) - offset4, yCor + (y1 * y1Scale) - 10, fontSize * barFontScale);
+			</script>
 		{% endif %}
 	</div>
 </div>
