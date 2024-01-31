@@ -33,6 +33,8 @@
 			<input type="hidden" id="N-value" value="{{ N }}">
 			<input type="hidden" id="s-value" value="{{ s }}">
 			<input type="hidden" id="bar-value" value="{{ bar }}">
+			<input type="hidden" id="col-value" value="{{ col }}">
+			<input type="hidden" id="cov-value" value="{{ cov }}">
 			<script>
 				const canvas = document.getElementById("myCanvas");
 				const ctx = canvas.getContext("2d");
@@ -43,66 +45,145 @@
 				const N = parseFloat(document.getElementById('N-value').value);
 				const s = parseFloat(document.getElementById('s-value').value);
 				const bar = parseFloat(document.getElementById('bar-value').value);
-				const xCor = 20;
-				const yCor = 130;
-				const mul = 60;
+				const col = parseFloat(document.getElementById('col-value').value);
+				const cov = parseFloat(document.getElementById('cov-value').value);
+				const xCor = 30;
+				const yCor = 20;
+				const topCov = 75;
+				const cur = d - ((cov + topCov) * 0.001);
+				const barXLen = b - (2 * topCov * 0.001);
+				const mul = 75;
 				const x = mul * b
 				const y1 = mul * b
 				const y2 = mul * d
-				const vertSpace = 50 + y2;
+				const xCol = mul * col;
+				const yCol = mul * col;
+				const curScaled = mul * cur;
+				const horzSpace = 100;
+				const vertSpace = 150;
 				const xScale = 0.75;
 				const y1Scale = 0.75;
 				const vsScale = 0.2;
+				const vsScaleBar = 0.6;
 				const dimWidth = 20;
-				const offset1 = 10;
+				const offset1 = 5;
 				const offset2 = 20;
 				const offset3 = 20;
+				const offset5 = 4;
+				const colHeight = y1 * 0.2;
+				const dotRadius = mul * 0.03;
+				const offSet7 = 4;
+				const barOff = 4;
 				// const scale = 28.7;
 				ctx.strokeStyle = "black";
 				ctx.fillStyle = "transparent";
-				ctx.lineWidth = 2;
-				ctx.rect(xCor, yCor, x, y1);
-				ctx.rect(xCor, yCor - vertSpace, x, y2);
-				ctx.stroke();
-				ctx.beginPath();
+				ctx.lineWidth = 1.3;
 				// plan view
-				ctx.moveTo(xCor + offset2, yCor + offset1);
-				ctx.lineTo(xCor + offset2, yCor + y1 - offset1);
-				ctx.moveTo(xCor + offset1, yCor + offset2);
-				ctx.lineTo(xCor + x - offset1, yCor + offset2);
-				ctx.moveTo(xCor + x - offset1, yCor + (y1 * y1Scale) - dimWidth);
-				ctx.lineTo(xCor + x - offset1, yCor + (y1 * y1Scale) + dimWidth);
-				ctx.moveTo(xCor + (x * xScale) - dimWidth, yCor + y1 - offset1);
-				ctx.lineTo(xCor + (x * xScale) + dimWidth, yCor + y1 - offset1);
-				// sectional view  
-				ctx.moveTo(xCor + offset1, yCor - vertSpace + y2 - 5);
-				ctx.lineTo(xCor + x - offset1, yCor - vertSpace + y2 - 5);  
+				ctx.rect(xCor, yCor, x, y1);
+				ctx.rect(xCor + (x * 0.5) - (xCol * 0.5), yCor + (y1 * 0.5) - (yCol * 0.5), xCol, yCol);
 				ctx.stroke();
-				const numDots = N;         
-				const dotRadius = mul * 0.02;
-				const width = x;        
-				const spacing = width / (numDots + 1);  
+				// section view
+				// footing
+				ctx.beginPath();
+				ctx.moveTo(xCor + (x * 0.5) - (xCol * 0.5), yCor + y1 + vertSpace);
+				ctx.lineTo(xCor + (x * 0.5) - (xCol * 0.5), yCor + y1 + vertSpace + colHeight);
+				ctx.lineTo(xCor, yCor + y1 + vertSpace + colHeight);
+				ctx.lineTo(xCor, yCor + y1 + vertSpace + colHeight + y2);
+				ctx.lineTo(xCor + x, yCor + y1 + vertSpace + colHeight + y2);
+				ctx.lineTo(xCor + x, yCor + y1 + vertSpace + colHeight);
+				ctx.lineTo(xCor + (x * 0.5) + (xCol * 0.5), yCor + y1 + vertSpace + colHeight);
+				ctx.lineTo(xCor + (x * 0.5) + (xCol * 0.5), yCor + y1 + vertSpace);
+				// col bar
+				const colBarOff = 4;
+				const cOBot = 1.5;
+				ctx.moveTo(xCor + (x * 0.5) - (xCol * 0.5) + colBarOff, yCor + y1 + vertSpace);
+				ctx.lineTo(xCor + (x * 0.5) - (xCol * 0.5) + colBarOff, yCor + y1 + vertSpace + colHeight + y2 - barOff - offSet7 - dotRadius - cOBot);
+				ctx.lineTo(xCor + (x * 0.5) - (xCol * 0.5) + colBarOff - curScaled, yCor + y1 + vertSpace + colHeight + y2 - barOff - offSet7 - dotRadius - cOBot);
+				ctx.moveTo(xCor + (x * 0.5) + (xCol * 0.5) - colBarOff, yCor + y1 + vertSpace);
+				ctx.lineTo(xCor + (x * 0.5) + (xCol * 0.5) - colBarOff, yCor + y1 + vertSpace + colHeight + y2 - barOff - offSet7 - dotRadius - cOBot);
+				ctx.lineTo(xCor + (x * 0.5) + (xCol * 0.5) - colBarOff + curScaled, yCor + y1 + vertSpace + colHeight + y2 - barOff - offSet7 - dotRadius - cOBot);
+				const numLns = Math.floor(b) + 1; 
+				const lineLen = (xCor + (x * 0.5) + (xCol * 0.5) - colBarOff) - (xCor + (x * 0.5) - (xCol * 0.5) + colBarOff);
+				const vertSpacBars = 10; 
+				const xBSrt = xCor + (x * 0.5) - (xCol * 0.5) + colBarOff; 
+				const yBSrt = yCor + y1 + vertSpace + 5; 
+				for (let i = 0; i < numLns; i++)
+				{
+					const yPosition = yBSrt + i * (vertSpacBars);
+					ctx.moveTo(xBSrt, yPosition);
+					ctx.lineTo(xBSrt + lineLen, yPosition);
+				}
+				// plan view bar and centerline                                                 
+				// vert rebar
+				ctx.moveTo(xCor + (x * xScale) - curScaled, yCor + offset1);
+				ctx.lineTo(xCor + (x * xScale), yCor + offset1);
+				ctx.lineTo(xCor + (x * xScale), yCor + y1 - offset1);
+				ctx.lineTo(xCor + (x * xScale) - curScaled, yCor + y1 - offset1);
+				ctx.moveTo(xCor + x + horzSpace - curScaled, yCor + offset1);
+				ctx.lineTo(xCor + x + horzSpace, yCor + offset1);
+				ctx.lineTo(xCor + x + horzSpace, yCor + y1 - offset1);
+				ctx.lineTo(xCor + x + horzSpace - curScaled, yCor + y1 - offset1);
+				// horz rebar
+				ctx.moveTo(xCor + offset1, yCor + (y1 * y1Scale) - curScaled);
+				ctx.lineTo(xCor + offset1, yCor + (y1 * y1Scale));
+				ctx.lineTo(xCor + x - offset1, yCor + (y1 * y1Scale));
+				ctx.lineTo(xCor + x - offset1, yCor + (y1 * y1Scale) - curScaled);
+				ctx.moveTo(xCor + offset1, yCor + y1 + (vertSpace * vsScaleBar) - curScaled);
+				ctx.lineTo(xCor + offset1, yCor + y1 + (vertSpace * vsScaleBar));
+				ctx.lineTo(xCor + x - offset1, yCor + y1 + (vertSpace * vsScaleBar));
+				ctx.lineTo(xCor + x - offset1, yCor + y1 + (vertSpace * vsScaleBar) - curScaled);
+				// section view bar
+				ctx.moveTo(xCor + offset1, yCor + y1 + vertSpace + colHeight + y2 - barOff - curScaled);
+				ctx.lineTo(xCor + offset1, yCor + y1 + vertSpace + colHeight + y2 - barOff);
+				ctx.lineTo(xCor + x - offset1, yCor + y1 + vertSpace + colHeight + y2 - barOff);  
+				ctx.lineTo(xCor + x - offset1, yCor + y1 + vertSpace + colHeight + y2 - barOff - curScaled);  
+				ctx.stroke();
+				// centerline plan view and col top
+				ctx.beginPath();
+				const cenLineOff = 15;
+				ctx.moveTo(xCor + (x * 0.5), yCor - cenLineOff);
+				ctx.lineTo(xCor + (x * 0.5), yCor + y1 + cenLineOff);
+				ctx.moveTo(xCor - cenLineOff, yCor + (y1 * 0.5));
+				ctx.lineTo(xCor + x + cenLineOff, yCor + (y1 * 0.5));
+				ctx.moveTo(xCor + (x * 0.5) - (xCol * 0.5) + colBarOff - 20, yCor + y1 + vertSpace);
+				ctx.lineTo(xCor + (x * 0.5) + (xCol * 0.5) - colBarOff + 20, yCor + y1 + vertSpace);
+				ctx.lineWidth = 0.5;
+				ctx.stroke();
+				const numDots = N;
+				const xCStart = xCor + offset1 + 4; 
+				const xCEnd = xCor + x - offset1 - 4; 
+				const width = xCEnd - xCStart - dotRadius * 2 + offset5;
+				const yC = yCor + y1 + vertSpace + colHeight + y2 - barOff - offSet7;
+				const spacing = width / (numDots - 1); 
 				for (let i = 0; i < numDots; i++)
 				{
-					const x = xCor + (spacing * (i + 1));  
-					const y = yCor - vertSpace + y2 - offset1;  
+					let x = xCStart + (spacing * i); 
+					if (i === numDots - 1) x = xCEnd;
 					ctx.beginPath();
-					ctx.arc(x, y, dotRadius, 0, 2 * Math.PI);  
-					ctx.fillStyle = "black"; 
+					ctx.arc(x, yC, dotRadius, 0, 2 * Math.PI);
+					ctx.fillStyle = "black";
 					ctx.fill();
 					ctx.closePath();
 				}
 				// arrows
+				const arrOff1 = 35;
+				const arrOff2 = 8;
+				const arrOff3 = 15 * x * 0.008;
 				const data =
 				[
-					{ startX: xCor + x + offset1, startY: yCor, endX: xCor + x + offset1, endY: yCor + y1 },
-					{ startX: xCor, startY: yCor - offset3, endX: x + xCor, endY: yCor - offset3 },
-					{ startX: xCor + x + offset1, startY: yCor - vertSpace, endX: xCor + x + offset1, endY: yCor - vertSpace + y2 },
-					{ startX: xCor + (x * xScale), startY: yCor + offset2, endX: xCor + (x * xScale), endY: yCor + y1 - offset1 },
-					{ startX: xCor + offset2, startY: yCor + (y1 * y1Scale), endX: xCor + x - offset1, endY: yCor + (y1 * y1Scale) },
+					{ startX: xCor + x + arrOff1, startY: yCor, endX: xCor + x + arrOff1, endY: yCor + y1 },
+					{ startX: xCor, startY: yCor + y1 + arrOff1, endX: x + xCor, endY:  yCor + y1 + arrOff1},
+					{ startX: xCor + x + arrOff2, startY: yCor + y1 + vertSpace + colHeight + y2, endX: xCor + x + arrOff2, endY: yCor + y1 + vertSpace + colHeight },
+					{ startX: xCor + x + arrOff2, startY: yCor, endX: xCor + x + arrOff2, endY: yCor + (y1 * 0.5) },
+					{ startX: xCor + x + arrOff2, startY: yCor + (y1 * 0.5), endX: xCor + x + arrOff2, endY: yCor + y1 },
+					{ startX: xCor, startY: yCor + y1 + arrOff2, endX: xCor + (x * 0.5), endY: yCor + y1 + arrOff2 },
+					{ startX: xCor + (x * 0.5), startY: yCor + y1 + arrOff2, endX: xCor + x, endY: yCor + y1 + arrOff2 },
+					{ startX: xCor, startY: yCor + y1 + vertSpace + arrOff3, endX: xCor + (x * 0.5) - (xCol * 0.5), endY: yCor + y1 + vertSpace + arrOff3 },
+					{ startX: xCor + (x * 0.5) - (xCol * 0.5), startY: yCor + y1 + vertSpace - arrOff2, endX: xCor + (x * 0.5) + (xCol * 0.5), endY: yCor + y1 + vertSpace - arrOff2 },
+					{ startX: xCor + (x * 0.5) + (xCol * 0.5), startY: yCor + y1 + vertSpace + arrOff3, endX: xCor + x, endY: yCor + y1 + vertSpace + arrOff3 },
 				];
-				const lineWidth = 1;
-				const arrowHeadSize = 5;
+				const lineWidth = 0.9;
+				const arrowHeadSize = 4.5;
 				const fontSize = 12;
 				const fontFamily = 'Arial';
 				const textColor = 'black';
@@ -144,27 +225,52 @@
 					drawDimensionLine(ctx, lineData);
 				}
 				// text
-				
-				const scaleFont = 1.1;
-				var barFontScale = 1;
+				const scaleFont = 1.2;
+				var barFontScale = 1.2;
 				var offset4 = 40;
 				if (b < 2.3)
 				{
-					barFontScale = barFontScale < (x * 0.0075) ? barFontScale : (x * 0.0075);
+					barFontScale = barFontScale < (x * 0.009) ? barFontScale : (x * 0.009);
 					offset4 = x * 0.27;
 				} 
-				function drawText(text, x, y, fontScale)
+				function drawText(text, x, y, fontScale, rotation = 0)
 				{
+					ctx.save(); 
+					ctx.translate(x, y); 
+					ctx.rotate(rotation * Math.PI / 180); 
 					ctx.font = `${fontScale}px ${fontFamily}`;
 					ctx.textAlign = 'center';
-					ctx.textBaseline = 'middle';
-					ctx.fillStyle = '#000'; 
-					ctx.fillText(text.toString(), x, y); 
+					ctx.textBaseline = 'middle'; 
+					ctx.fillStyle = '#000';
+					ctx.fillText(text.toString(), 0, 0); 
+					ctx.restore(); 
 				}
-				drawText(d + " m", xCor + x + 35, yCor - vertSpace + (y2 * 0.5), fontSize * scaleFont );
-				drawText(b + " m", xCor + x + 35, yCor + (y1 * 0.5), fontSize * scaleFont);
-				drawText(b + " m", xCor + (x * 0.5), yCor - offset3 - 10, fontSize * scaleFont);
-				drawText(N + "H" + bar + " @ " + s, xCor + (x * xScale) - offset4, yCor + (y1 * y1Scale) - 10, fontSize * barFontScale);
+				const txtOff1 = 20;
+				const txtOff2 = 45;
+				const txtOff3 = 8;
+				const txtOff4 = 12;
+				const txtOff5 = 20;
+				drawText(d * 1000, xCor + x + txtOff1, yCor + y1 + vertSpace + colHeight + (y2 * 0.5), fontSize * scaleFont, 270 );
+				drawText(b * 1000, xCor + x + txtOff2, yCor + (y1 * 0.5), fontSize * scaleFont, 270 );
+				drawText(b * 500, xCor + x + txtOff1, yCor + (y1 * 0.25), fontSize * scaleFont, 270 );
+				drawText(b * 500, xCor + x + txtOff1, yCor + (y1 * 0.75), fontSize * scaleFont, 270 );
+				drawText(b * 1000, xCor + (x * 0.5), yCor + y1 + txtOff2, fontSize * scaleFont, 0 );
+				drawText(b * 500, xCor + (x * 0.25), yCor + y1 + txtOff1, fontSize * scaleFont, 0 );
+				drawText(b * 500, xCor + (x * 0.75), yCor + y1 + txtOff1, fontSize * scaleFont, 0 );
+				drawText(Math.round(((b * 0.5) - (col * 0.5)) * 1000), xCor + (x * 0.21), yCor + y1 + vertSpace + arrOff3 - txtOff3, fontSize * scaleFont, 0 );
+				drawText(Math.round(((b * 0.5) - (col * 0.5)) * 1000), xCor + (x * 0.79), yCor + y1 + vertSpace + arrOff3 - txtOff3, fontSize * scaleFont, 0 );
+				drawText(Math.round(col * 1000), xCor + (x * 0.5), yCor + y1 + vertSpace - arrOff2 - txtOff4, fontSize * scaleFont, 0 );
+				drawText(N + "ϕ" + bar + "@" + s + "-" + Math.round(((2 * cur) + barXLen) * 1000), xCor + (x * 0.5), yCor + y1 + (vertSpace * vsScaleBar) - txtOff4, fontSize * barFontScale, 0);
+				drawText(Math.round(barXLen * 1000), xCor + (x * 0.5), yCor + y1 + (vertSpace * vsScaleBar) + txtOff4, fontSize * barFontScale, 0);
+				drawText(Math.round(cur * 1000), xCor - txtOff3, yCor + y1 + (vertSpace * vsScaleBar) - (curScaled * 0.5), fontSize * barFontScale, 270);
+				drawText(Math.round(cur * 1000), xCor + x + txtOff3, yCor + y1 + (vertSpace * vsScaleBar) - (curScaled * 0.5), fontSize * barFontScale, 270);
+				drawText(N + "ϕ" + bar + "@" + s + "-" + Math.round(((2 * cur) + barXLen) * 1000), xCor + x + horzSpace - txtOff4, yCor + (y1 * 0.5), fontSize * barFontScale, 270);
+				drawText(Math.round(barXLen * 1000), xCor + x + horzSpace + txtOff4, yCor + (y1 * 0.5), fontSize * barFontScale, 270);
+				drawText(Math.round(cur * 1000), xCor + x + horzSpace - (curScaled * 0.5), yCor - txtOff3, fontSize * barFontScale, 0);
+				drawText(Math.round(cur * 1000), xCor + x + horzSpace - (curScaled * 0.5), yCor + y1 + txtOff3, fontSize * barFontScale, 0);
+				drawText("A", xCor - txtOff5, yCor + (y1 * 0.5), fontSize * scaleFont, 0);
+				drawText("A", xCor + x + txtOff5, yCor + (y1 * 0.5), fontSize * scaleFont, 0);
+				drawText("Section A-A", xCor + (x * 0.5), yCor + y1 + vertSpace + colHeight + y2 + txtOff1, fontSize * scaleFont, 0);
 			</script>
 		{% endif %}
 	</div>

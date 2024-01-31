@@ -99,8 +99,8 @@ def clay_soil_results():
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
-                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar,\
-                        user=current_user)
+                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar, col=col,\
+                        cov=cov, user=current_user)
         elif submit_type == 'advanced':
             if user.is_authenticated:
                 if b == 0:
@@ -158,8 +158,8 @@ def sand_soil_results():
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
-                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar,\
-                        user=current_user)
+                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar, col=col,\
+                        cov=cov, user=current_user)
         elif submit_type == 'advanced':
             if user.is_authenticated:
                 if b == 0:
@@ -213,8 +213,8 @@ def bearing_cap_results():
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
-                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar,\
-                        user=current_user)
+                return render_template('result.html', b=b, d=d, N=N, s=s, bar=bar, col=col,\
+                        cov=cov, user=current_user)
         elif submit_type == 'advanced':
             if user.is_authenticated:
                 if b == 0:

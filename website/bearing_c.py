@@ -11,7 +11,7 @@ def bearing_c_iso(DL, LL, col, bc, fck, fyk, bar, covr):
     rho_initial = 0.0025
     rho_min = max((0.26 * (1.43 / fyk) * 0.21 * (fck ** (2 / 3))) , 0.0013)
     cover = covr / 1000
-    cover_side = 0.01
+    cover_side = 0.075
 
     if DL >= 200 and DL <= 4100 and LL >= 130 and LL <= 2100 and col >= 0.1\
             and col <= 1.5 and bc >= 50 and bc <= 1000 and fck >= 25\
