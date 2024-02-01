@@ -136,11 +136,13 @@ def bearing_c_iso(DL, LL, col, bc, fck, fyk, bar, covr):
             As = rho_final * B_final * d_final * 1000000
             N = math.ceil(As / (math.pi * (((phi / 2) * 1000) ** 2)))
             As_f = round((N * (math.pi * (((phi / 2) * 1000) ** 2))), 1)
-            B_f = round((math.ceil(B_final / 0.05) * 0.05), 2)
+            # B_f = round((math.ceil(B_final / 0.05) * 0.05), 2)
+            B_f = math.ceil(B_final * 10) / 10
             s_a = ((B_f / (N - 1)) - phi - (cover_side * 2)) * 1000
             s_ini = math.floor(s_a / 10) * 10
             D_f = round((math.ceil(D_final / 0.05) * 0.05), 2)
             s = min(s_ini, 400, (3 * D_f * 1000))
-        return [B_f, D_f, As_f, N, s]
+            s_f = max(s, 20, phi)
+        return [B_f, D_f, As_f, N, s_f]
     else:
         return [0, 0, 0, 0, 0]
