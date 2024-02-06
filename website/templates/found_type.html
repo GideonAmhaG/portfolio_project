@@ -2,14 +2,17 @@
 {% block title %}Select foundation type{% endblock %}
 {% block header %}Select foundation type{% endblock %}
 {% block content %}
-<div class="row" style="padding-left: 1%;">
+<div class="row justify-content-center">
 	<div class="col">
-		<form method="post">
-			<input class="form-check-input" type="radio" name="option" value="iso_square" checked> Isolated footing (square footing, square column)<br>
-			<div class="row justify-content-center pt-4">
-				<input class="btn btn-success" style="width: 20%;" type="submit" value="Choose">
+	  	<form method="post">
+			<div class="form-check form-check-inline">
+		  		<input class="form-check-input" type="radio" name="option" value="iso_square" checked>
+		  		<label class="form-check-label" for="iso_square">Isolated footing (square footing, square column)</label>
 			</div>
-		</form>
+			<div class="row justify-content-center pt-4">
+		  		<input class="btn btn-success" type="submit" value="Choose">
+			</div>
+	  	</form>
 	</div>
 </div>
 {% endblock %}
