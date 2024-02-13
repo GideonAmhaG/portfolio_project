@@ -1,7 +1,7 @@
 """ for sand soil """
 import math
 
-def sand_iso(DL, LL, col, phi_f, Df, gamma, fck, fyk, bar, covr):
+def sand_iso(DL, LL, mxp, mxv, myp, myv, col, phi_f, Df, gamma, fck, fyk, bar, covr):
     #variables
     pi = math.pi
     B_initial = col
@@ -13,6 +13,8 @@ def sand_iso(DL, LL, col, phi_f, Df, gamma, fck, fyk, bar, covr):
     cover_side = 0.075
 
     if DL >= 200 and DL <= 4100 and LL >= 130 and LL <= 2100 and col >= 0.1\
+            and mxp >= -2000 and mxp <= 2000 and mxv >= -2000 and mxv <= 2000\
+            and myp >= -2000 and myp <= 2000 and myv >= -2000 and myv <= 2000\
             and col <= 1.5 and phi_f >= 1 and phi_f <= 70 and fck >= 25\
             and fck <= 100 and fyk >= 100 and fyk <= 1000 and bar >= 12\
             and bar <= 32 and Df > 0 and Df <= 10 and gamma > 1\
@@ -68,12 +70,14 @@ def sand_iso(DL, LL, col, phi_f, Df, gamma, fck, fyk, bar, covr):
             Nc = (Nq-1)/(math.tan(phi_r))
             Ngamma = (2*(Nq+1)*math.tan(phi_r))/(1+(0.4*math.sin(math.radians(4*phi))))
             return Nc, Nq, Ngamma
-        def sig_prop(B, D, col, Df, DL, LL, phi, gamma):
+        def sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi, gamma):
             SW_conc = 24 * B * B * D
             SW_fill = (((B * B) - (col * col))) * Df * 0
             SW = SW_conc + SW_fill
             p_p = DL + SW + LL
-            sig_p = p_p / (B * B)
+            ex = abs((myp + myv) / p_p)
+            ey = abs((mxp + mxv) / p_p)
+            sig_p = (p_p / (B * B)) * (1 + ((6 * ex) / B) + ((6 * ey) / B))
             Nc, Nq, Ngamma = terzaghi(phi)
             qu = (gamma * Df * Nq) + (0.4 * B * gamma * Ngamma)
             FS = 3
@@ -92,19 +96,19 @@ def sand_iso(DL, LL, col, phi_f, Df, gamma, fck, fyk, bar, covr):
             return med, mrd
 
         #main function
-        def B_D_rho(D, D_tmp, DL, LL, B, fyk, rho, rho_min):
-            sig_p, qa = sig_prop(B, D, col, Df, DL, LL, phi_f, gamma)
+        def B_D_rho(D, D_tmp, DL, LL, mxp, mxv, myp, myv, B, fyk, rho, rho_min):
+            sig_p, qa = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
             q_all = math.ceil(qa * 10) / 10
             FOS = 3
             qultm = q_all * FOS 
             q_ult = math.ceil(qultm * 10) / 10
             if sig_p > qa:
                 while sig_p > qa:
-                    sig_p, qa = sig_prop(B, D, col, Df, DL, LL, phi_f, gamma)
+                    sig_p, qa = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
                     B += 0.0005
             else:
                 while sig_p <= qa:
-                    sig_p, qa = sig_prop(B, D, col, Df, DL, LL, phi_f, gamma)
+                    sig_p, qa = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
                     B -= 0.0005
             p_s = (1.35 * DL) + (1.5 * LL)
             sig_s = p_s / (B * B)
@@ -143,9 +147,9 @@ def sand_iso(DL, LL, col, phi_f, Df, gamma, fck, fyk, bar, covr):
                     rho += 0.0000005
             return D, B, rho, q_all, FOS, q_ult
 
-        D_final, B_final, rho_final, q_all, FOS, q_ult = B_D_rho(D_initial, D_initial, DL, LL, B_initial, fyk, rho_initial, rho_min)
+        D_final, B_final, rho_final, q_all, FOS, q_ult = B_D_rho(D_initial, D_initial, DL, LL, mxp, mxv, myp, myv, B_initial, fyk, rho_initial, rho_min)
         if D_final != D_initial or B_final != B_initial or rho_final != rho_initial:
-            D_final, B_final, rho_final, q_all, FOS, q_ult = B_D_rho(D_final, D_final, DL, LL, B_final, fyk, rho_final, rho_min)
+            D_final, B_final, rho_final, q_all, FOS, q_ult = B_D_rho(D_final, D_final, DL, LL, mxp, mxv, myp, myv, B_final, fyk, rho_final, rho_min)
             d_final = d_avg(D_final, phi, cover)
             As = rho_final * B_final * d_final * 1000000
             N = math.ceil(As / (math.pi * (((phi / 2) * 1000) ** 2)))

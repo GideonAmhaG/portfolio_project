@@ -60,6 +60,10 @@ def clay_soil_results():
     """ takes inputs and displays results for clay soil """
     dl = request.form['DL']
     ll = request.form['LL']
+    mxp = request.form['mxp']
+    mxv = request.form['mxv']
+    myp = request.form['myp']
+    myv = request.form['myv']
     col = request.form['COL']
     cu = request.form['CU']
     df = request.form['DF']
@@ -68,7 +72,7 @@ def clay_soil_results():
     fyk = request.form['FYK']
     bar = request.form['BAR']
     cov = request.form['COV']
-    var_list = [dl, ll, col, cu, df, gam, fck, fyk, bar, cov]
+    var_list = [dl, ll, mxp, mxv, myp, myv, col, cu, df, gam, fck, fyk, bar, cov]
 	
     def is_float(value):
         try:
@@ -84,6 +88,10 @@ def clay_soil_results():
     else:
         dl = float(request.form['DL'])
         ll = float(request.form['LL'])
+        mxp = float(request.form['mxp'])
+        mxv = float(request.form['mxv'])
+        myp = float(request.form['myp'])
+        myv = float(request.form['myv'])
         col = float(request.form['COL'])
         cu = float(request.form['CU'])
         df = float(request.form['DF'])
@@ -94,7 +102,7 @@ def clay_soil_results():
         cov = float(request.form['COV'])
         submit_type = request.form['submit_type']
         user = current_user
-        b, d, As, N, s, qa, fs, qu = clay_iso(dl, ll, col, cu, df, gam, fck, fyk, bar, cov)
+        b, d, As, N, s, qa, fs, qu = clay_iso(dl, ll, mxp, mxv, myp, myv, col, cu, df, gam, fck, fyk, bar, cov)
         if submit_type == 'regular':
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
@@ -119,6 +127,10 @@ def sand_soil_results():
     """ takes inputs and displays results for sand soil """
     dl = request.form['DL']
     ll = request.form['LL']
+    mxp = request.form['mxp']
+    mxv = request.form['mxv']
+    myp = request.form['myp']
+    myv = request.form['myv']
     col = request.form['COL']
     phi = request.form['PHI']
     df = request.form['DF']
@@ -127,7 +139,7 @@ def sand_soil_results():
     fyk = request.form['FYK']
     bar = request.form['BAR']
     cov = request.form['COV']
-    var_list = [dl, ll, col, phi, df, gam, fck, fyk, bar, cov]
+    var_list = [dl, ll, mxp, mxv, myp, myv, col, phi, df, gam, fck, fyk, bar, cov]
 	
     def is_float(value):
         try:
@@ -143,6 +155,10 @@ def sand_soil_results():
     else:
         dl = float(request.form['DL'])
         ll = float(request.form['LL'])
+        mxp = float(request.form['mxp'])
+        mxv = float(request.form['mxv'])
+        myp = float(request.form['myp'])
+        myv = float(request.form['myv'])
         col = float(request.form['COL'])
         phi = float(request.form['PHI'])
         df = float(request.form['DF'])
@@ -153,7 +169,7 @@ def sand_soil_results():
         cov = float(request.form['COV'])
         submit_type = request.form['submit_type']
         user = current_user
-        b, d, As, N, s, qa, fs, qu = sand_iso(dl, ll, col, phi, df, gam, fck, fyk, bar, cov)
+        b, d, As, N, s, qa, fs, qu = sand_iso(dl, ll, mxp, mxv, myp, myv, col, phi, df, gam, fck, fyk, bar, cov)
         if submit_type == 'regular':
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
@@ -178,13 +194,17 @@ def bearing_cap_results():
     """ takes inputs and displays results when bearing capacity is provided """
     dl = request.form['DL']
     ll = request.form['LL']
+    mxp = request.form['mxp']
+    mxv = request.form['mxv']
+    myp = request.form['myp']
+    myv = request.form['myv']
     col = request.form['COL']
     bc = request.form['BC']
     fck = request.form['FCK']
     fyk = request.form['FYK']
     bar = request.form['BAR']
     cov = request.form['COV']
-    var_list = [dl, ll, col, bc, fck, fyk, bar, cov]
+    var_list = [dl, ll, col, mxp, mxv, myp, myv, bc, fck, fyk, bar, cov]
 	
     def is_float(value):
         try:
@@ -200,6 +220,10 @@ def bearing_cap_results():
     else:
         dl = float(request.form['DL'])
         ll = float(request.form['LL'])
+        mxp = float(request.form['mxp'])
+        mxv = float(request.form['mxv'])
+        myp = float(request.form['myp'])
+        myv = float(request.form['myv'])
         col = float(request.form['COL'])
         bc = float(request.form['BC'])
         fck = float(request.form['FCK'])
@@ -208,7 +232,7 @@ def bearing_cap_results():
         cov = float(request.form['COV'])
         submit_type = request.form['submit_type']
         user = current_user
-        b, d, As, N, s = bearing_c_iso(dl, ll, col, bc, fck, fyk, bar, cov)
+        b, d, As, N, s = bearing_c_iso(dl, ll, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, cov)
         if submit_type == 'regular':
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
