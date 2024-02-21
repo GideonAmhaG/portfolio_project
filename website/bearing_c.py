@@ -170,4 +170,4 @@ def bearing_c_iso(DL, LL, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, covr):
                 d_final, sig_s, d_wide, d_punch, vrd_wide, vrd_punch, k_wide, vrd_min_wide,\
                 Ap2_wide, As_wide, k_punch, vrd_min_punch, Ap2_punch, As_punch, rho_final, z, As, Asmin]
     else:
-        return [0] * 37
+        return [0] * 39

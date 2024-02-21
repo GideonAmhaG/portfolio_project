@@ -124,15 +124,23 @@ def clay_soil_results():
                             Ap2_punch=Ap2_punch, As_punch=As_punch, rho_final=rho_final, z=z, As_old=As_old,\
                             Asmin=Asmin, user=current_user)
         elif submit_type == 'advanced':
-            if user.is_authenticated:
+            # if user.is_authenticated:
                 if b == 0:
                     return render_template('result.html', text="You", user=current_user)
                 else:
                     return render_template('result_adv.html', b=b, d=d, As=As, N=N, s=s,\
-                            qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, col=col, cu=cu, df=df, gam=gam, fck=fck,\
-                            fyk=fyk, bar=bar, cov=cov, user=current_user)
-            else:
-                return redirect(url_for('auth.login'))
+                            qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv,\
+                            col=col, cu=cu, df=df, gam=gam, fck=fck,\
+                            fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
+                            D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
+                            mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
+                            D_final=D_final, d_final=d_final, sig_s=sig_s, d_wide=d_wide, d_punch=d_punch,\
+                            vrd_wide=vrd_wide, vrd_punch=vrd_punch, k_wide=k_wide, vrd_min_wide=vrd_min_wide,\
+                            Ap2_wide=Ap2_wide, As_wide=As_wide, k_punch=k_punch, vrd_min_punch=vrd_min_punch,\
+                            Ap2_punch=Ap2_punch, As_punch=As_punch, rho_final=rho_final, z=z, As_old=As_old,\
+                            Asmin=Asmin, user=current_user)
+            # else:
+            #     return redirect(url_for('auth.login'))
     return render_template('clay.html', user=current_user)
 
 
@@ -187,7 +195,7 @@ def sand_soil_results():
             ved_punch, vrd, med, mrd, rho_min, SW_conc, SW_fill, B_final,\
             D_final, d_final, sig_s, d_wide, d_punch, vrd_wide, vrd_punch,\
             k_wide, vrd_min_wide, Ap2_wide, As_wide, k_punch, vrd_min_punch,\
-            Ap2_punch, As_punch, rho_final, z, As_old, Asmin\
+            Ap2_punch, As_punch, rho_final, z, As_old, Asmin, Nc, Nq, Ngamma\
                 = sand_iso(dl, ll, mxp, mxv, myp, myv, col, phi, df, gam, fck, fyk, bar, cov)
         if submit_type == 'regular':
             if b == 0:
@@ -203,17 +211,25 @@ def sand_soil_results():
                             vrd_wide=vrd_wide, vrd_punch=vrd_punch, k_wide=k_wide, vrd_min_wide=vrd_min_wide,\
                             Ap2_wide=Ap2_wide, As_wide=As_wide, k_punch=k_punch, vrd_min_punch=vrd_min_punch,\
                             Ap2_punch=Ap2_punch, As_punch=As_punch, rho_final=rho_final, z=z, As_old=As_old,\
-                            Asmin=Asmin, user=current_user)
+                            Asmin=Asmin, Nc=Nc, Nq=Nq, Ngamma=Ngamma, user=current_user)
         elif submit_type == 'advanced':
-            if user.is_authenticated:
+            # if user.is_authenticated:
                 if b == 0:
                     return render_template('result.html', text="You", user=current_user)
                 else:
                     return render_template('result_adv.html', b=b, d=d, As=As, N=N, s=s,\
-                            qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, col=col, phi=phi, df=df, gam=gam, fck=fck,\
-                            fyk=fyk, bar=bar, cov=cov, user=current_user)
-            else:
-                return redirect(url_for('auth.login'))
+                            qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv,\
+                            col=col, phi=phi, df=df, gam=gam, fck=fck,\
+                            fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
+                            D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
+                            mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
+                            D_final=D_final, d_final=d_final, sig_s=sig_s, d_wide=d_wide, d_punch=d_punch,\
+                            vrd_wide=vrd_wide, vrd_punch=vrd_punch, k_wide=k_wide, vrd_min_wide=vrd_min_wide,\
+                            Ap2_wide=Ap2_wide, As_wide=As_wide, k_punch=k_punch, vrd_min_punch=vrd_min_punch,\
+                            Ap2_punch=Ap2_punch, As_punch=As_punch, rho_final=rho_final, z=z, As_old=As_old,\
+                            Asmin=Asmin, Nc=Nc, Nq=Nq, Ngamma=Ngamma, user=current_user)
+            # else:
+            #     return redirect(url_for('auth.login'))
     return render_template('sand.html', user=current_user)
 
 
@@ -281,15 +297,22 @@ def bearing_cap_results():
                             Ap2_punch=Ap2_punch, As_punch=As_punch, rho_final=rho_final, z=z, As_old=As_old,\
                             Asmin=Asmin, user=current_user)
         elif submit_type == 'advanced':
-            if user.is_authenticated:
+            # if user.is_authenticated:
                 if b == 0:
                     return render_template('result.html', text="You", user=current_user)
                 else:
-                    return render_template('result_adv.html', b=b, d=d, As=As, N=N, s=s,\
-                            dl=dl, ll=ll, col=col, bc=bc, fck=fck,\
-                            fyk=fyk, bar=bar, cov=cov, user=current_user)
-            else:
-                return redirect(url_for('auth.login'))
+                    return render_template('result_adv.html',b=b, d=d, As=As, N=N, s=s,\
+                            dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv, col=col, bc=bc, fck=fck,\
+                            fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
+                            D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
+                            mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
+                            D_final=D_final, d_final=d_final, sig_s=sig_s, d_wide=d_wide, d_punch=d_punch,\
+                            vrd_wide=vrd_wide, vrd_punch=vrd_punch, k_wide=k_wide, vrd_min_wide=vrd_min_wide,\
+                            Ap2_wide=Ap2_wide, As_wide=As_wide, k_punch=k_punch, vrd_min_punch=vrd_min_punch,\
+                            Ap2_punch=Ap2_punch, As_punch=As_punch, rho_final=rho_final, z=z, As_old=As_old,\
+                            Asmin=Asmin, user=current_user)
+            # else:
+            #     return redirect(url_for('auth.login'))
     return render_template('bearing_c.html', user=current_user)
     
 

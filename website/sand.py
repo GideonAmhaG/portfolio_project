@@ -82,7 +82,7 @@ def sand_iso(DL, LL, mxp, mxv, myp, myv, col, phi_f, Df, gamma, fck, fyk, bar, c
             qu = (gamma * Df * Nq) + (0.4 * B * gamma * Ngamma)
             FS = 3
             qa = qu / FS
-            return sig_p, qa, ex, ey, SW_conc, SW_fill
+            return sig_p, qa, ex, ey, SW_conc, SW_fill, Nc, Nq, Ngamma
         def zed(D, phi, m, B, fck):
             d = d_avg(D, phi, cover)
             z = d * (0.5 + (0.25 - (m / (B * (d ** 2) * (fck * 1000) * 1.134))) ** 0.5)
@@ -97,18 +97,18 @@ def sand_iso(DL, LL, mxp, mxv, myp, myv, col, phi_f, Df, gamma, fck, fyk, bar, c
 
         #main function
         def B_D_rho(D, D_tmp, DL, LL, mxp, mxv, myp, myv, B, fyk, rho, rho_min):
-            sig_p, qa, ex, ey, SW_conc, SW_fill = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
+            sig_p, qa, ex, ey, SW_conc, SW_fill, Nc, Nq, Ngamma = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
             q_all = math.ceil(qa * 10) / 10
             FOS = 3
             qultm = q_all * FOS 
             q_ult = math.ceil(qultm * 10) / 10
             if sig_p > qa:
                 while sig_p > qa:
-                    sig_p, qa, ex, ey, SW_conc, SW_fill = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
+                    sig_p, qa, ex, ey, SW_conc, SW_fill, Nc, Nq, Ngamma = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
                     B += 0.000005
             else:
                 while sig_p <= qa:
-                    sig_p, qa, ex, ey, SW_conc, SW_fill = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
+                    sig_p, qa, ex, ey, SW_conc, SW_fill, Nc, Nq, Ngamma = sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv, phi_f, gamma)
                     B -= 0.000005
             p_s = (1.35 * DL) + (1.5 * LL)
             sig_s = p_s / (B * B)
@@ -151,19 +151,19 @@ def sand_iso(DL, LL, mxp, mxv, myp, myv, col, phi_f, Df, gamma, fck, fyk, bar, c
             return D, B, rho, q_all, FOS, q_ult, p_s, ex, ey, sig_p, D_wide, D_punch, ved_wide,\
                     ved_punch, vrd, med, mrd, SW_conc, SW_fill, sig_s, d_wide, d_punch,\
                     vrd_wide, vrd_punch, k_wide, vrd_min_wide, Ap2_wide, As_wide,\
-                    k_punch, vrd_min_punch, Ap2_punch, As_punch, z
+                    k_punch, vrd_min_punch, Ap2_punch, As_punch, z, Nc, Nq, Ngamma
 
         D_final, B_final, rho_final, q_all, FOS, q_ult, p_s, ex, ey, sig_p, D_wide, D_punch, ved_wide,\
                     ved_punch, vrd, med, mrd, SW_conc, SW_fill, sig_s, d_wide, d_punch,\
                     vrd_wide, vrd_punch, k_wide, vrd_min_wide, Ap2_wide, As_wide,\
-                    k_punch, vrd_min_punch, Ap2_punch, As_punch, z\
+                    k_punch, vrd_min_punch, Ap2_punch, As_punch, z, Nc, Nq, Ngamma\
                         = B_D_rho(D_initial, D_initial, DL, LL, mxp, mxv,\
                             myp, myv, B_initial, fyk, rho_initial, rho_min)
         if D_final != D_initial or B_final != B_initial or rho_final != rho_initial:
             D_final, B_final, rho_final, q_all, FOS, q_ult, p_s, ex, ey, sig_p, D_wide, D_punch, ved_wide,\
                     ved_punch, vrd, med, mrd, SW_conc, SW_fill, sig_s, d_wide, d_punch,\
                     vrd_wide, vrd_punch, k_wide, vrd_min_wide, Ap2_wide, As_wide,\
-                    k_punch, vrd_min_punch, Ap2_punch, As_punch, z\
+                    k_punch, vrd_min_punch, Ap2_punch, As_punch, z, Nc, Nq, Ngamma\
                         = B_D_rho(D_final, D_final, DL, LL, mxp, mxv, myp,\
                             myv, B_final, fyk, rho_final, rho_min)
             d_final = d_avg(D_final, phi, cover)
@@ -181,6 +181,6 @@ def sand_iso(DL, LL, mxp, mxv, myp, myv, col, phi_f, Df, gamma, fck, fyk, bar, c
         return [B_f, D_f, As_f, N, s_f, q_all, FOS, q_ult, p_s, ex, ey, sig_p, D_wide, D_punch, ved_wide,\
                 ved_punch, vrd, med, mrd, rho_min, SW_conc, SW_fill, B_final, D_final,\
                 d_final, sig_s, d_wide, d_punch, vrd_wide, vrd_punch, k_wide, vrd_min_wide,\
-                Ap2_wide, As_wide, k_punch, vrd_min_punch, Ap2_punch, As_punch, rho_final, z, As, Asmin]
+                Ap2_wide, As_wide, k_punch, vrd_min_punch, Ap2_punch, As_punch, rho_final, z, As, Asmin, Nc, Nq, Ngamma]
     else:
-        return [0] * 40
+        return [0] * 45
