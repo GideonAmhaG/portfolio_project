@@ -16,6 +16,18 @@
 			{% if ll %}
 				<p>Variable load (Unfactored), Qk = {{ ll }} kN</p>
 			{% endif %}
+			{% if ll %}
+				<p>MomentX Permanent (Unfactored), Mxp = {{ mxp }} kNm</p>
+			{% endif %}
+			{% if ll %}
+				<p>MomentX Variable (Unfactored), Mxv = {{ mxv }} kNm</p>
+			{% endif %}
+			{% if ll %}
+				<p>MomentY Permanent (Unfactored), Myp = {{ myp }} kNm</p>
+			{% endif %}
+			{% if ll %}
+				<p>MomentY Variable (Unfactored), Myv = {{ myv }} kNm</p>
+			{% endif %}
 			{% if col %}
 				<p>Column width = {{ col }} m</p>
 			{% endif %}
@@ -40,14 +52,14 @@
 			{% if fyk %}
 				<p>Steel strength, fyk = {{ fyk }} MPa</p>
 			{% endif %}
+		</div>
+		<div class="col">
 			{% if bar %}
-				<p>Re-Bar diameter = {{ bar }} mm</p>
+			<p>Re-Bar diameter = {{ bar }} mm</p>
 			{% endif %}
 			{% if cov %}
 				<p>Cover = {{ cov }} mm</p>
 			{% endif %}
-		</div>
-		<div class="col">
 			<h4>Outputs</h4>
 			{% if b %}
 				<p>Length of side, B (both sides) = {{ b }} m</p>

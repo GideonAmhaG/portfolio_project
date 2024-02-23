@@ -20,29 +20,29 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
-		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
-			<span class="navbar-toggler-icon"></span>
-		  </button>
-		  <div class="collapse navbar-collapse" id="navbar">
-			<div class="navbar-nav d-lg-flex align-items-center">
-			  <a class="nav-item nav-link h4 font-italic" id="index" href="/">
+			<a class="nav-item nav-link h4 font-italic text-secondary" id="index" href="/">
 				<img src="../static/logo.png" alt="Your Image" width="28" height="28" style="transform: rotate(-45deg);"> geotechapps
-			  </a>
-			  <span class="nav-item h4 mx-2">|</span>
-			  {% if user.is_authenticated %}
-				<a class="nav-item nav-link" align="end" id="logout" href="/logout">Logout</a>
-			  {% else %}
-				<a class="nav-item nav-link" id="login" href="/login">Login</a>
-				<a class="nav-item nav-link" id="signUp" href="/sign_up">Sign Up</a>
-			  {% endif %}
-			  <a class="nav-item nav-link" id="about" href="/about">About</a>
-			  <a class="nav-item nav-link" id="faq" href="/faq">FAQ</a>
-			  <span class="nav-item h4 mx-2">|</span>
-			  <a class="nav-item nav-link h4 border" id="StartDesign" href="/found_type">Start Designing</a>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbar">
+				<div class="navbar-nav d-lg-flex align-items-center">
+				<span class="nav-item h4 mx-2">|</span>
+				{% if user.is_authenticated %}
+					<a class="nav-item nav-link" align="end" id="logout" href="/logout">Logout</a>
+				{% else %}
+					<a class="nav-item nav-link" id="login" href="/login">Login</a>
+					<a class="nav-item nav-link" id="sign-up" href="/sign-up">Sign Up</a>
+				{% endif %}
+				<a class="nav-item nav-link" id="about" href="/about">About</a>
+				<a class="nav-item nav-link" id="faq" href="/faq">FAQ</a>
+				<span class="nav-item h4 mx-2">|</span>
+				<a class="nav-item nav-link h4 border" id="StartDesign" href="/found_type">Start Designing</a>
+				</div>
 			</div>
-		  </div>
 		</div>
-	  </nav>
+	</nav>
 
 	{% with messages = get_flashed_messages(with_categories=true) %} {% if
 	messages %} {% for category, message in messages %} {% if category ==
