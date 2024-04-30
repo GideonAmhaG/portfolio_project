@@ -29,7 +29,10 @@
 				<p>MomentY Variable (Unfactored), Myv = {{ myv }} kNm</p>
 			{% endif %}
 			{% if col %}
-				<p>Column width = {{ col }} m</p>
+				<p>Column widthX = {{ col }} m</p>
+			{% endif %}
+			{% if coly %}
+				<p>Column widthY = {{ coly }} m</p>
 			{% endif %}
 			{% if cu %}
 				<p>Undrained cohesion, cu = {{ cu }} kPa</p>
@@ -397,6 +400,7 @@
 			<input type="hidden" id="s-value" value="{{ s }}">
 			<input type="hidden" id="bar-value" value="{{ bar }}">
 			<input type="hidden" id="col-value" value="{{ col }}">
+			<input type="hidden" id="col-valuey" value="{{ coly }}">
 			<input type="hidden" id="cov-value" value="{{ cov }}">
 			<script
 				type="text/javascript"

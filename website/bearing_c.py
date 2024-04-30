@@ -1,9 +1,10 @@
 """ for cases where bearing capacity is provided """
 import math
 
-def bearing_c_iso(DL, LL, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, covr):
+def bearing_c_iso(DL, LL, mxp, mxv, myp, myv, colx, coly, bc, fck, fyk, bar, covr):
     #variables
     pi = math.pi
+    col = min(colx, coly)
     B_initial = col
     D_initial = 0.7
     phi = bar / 1000
@@ -13,12 +14,12 @@ def bearing_c_iso(DL, LL, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, covr):
     cover = covr / 1000
     cover_side = 0.075
 
-    if DL >= 200 and DL <= 4100 and LL >= 130 and LL <= 2100 and col >= 0.1\
+    if DL >= 200 and DL <= 4100 and LL >= 130 and LL <= 2100 and colx >= 0.1\
             and mxp >= -2000 and mxp <= 2000 and mxv >= -2000 and mxv <= 2000\
             and myp >= -2000 and myp <= 2000 and myv >= -2000 and myv <= 2000\
-            and col <= 1.5 and bc >= 50 and bc <= 1000 and fck >= 25\
+            and colx <= 1.5 and bc >= 50 and bc <= 1000 and fck >= 25\
             and fck <= 100 and fyk >= 100 and fyk <= 1000 and bar >= 12\
-            and bar <= 32:
+            and bar <= 32 and coly >= 0.1 and coly <= 1.5:
         #functions
         def d_avg(D, phi, cov):
             d = ((D - cov - phi - (phi / 2)) + (D - cov - phi)) / 2
@@ -30,9 +31,9 @@ def bearing_c_iso(DL, LL, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, covr):
                 return k
             else:
                 return 2
-        def area_part2_punch(D, phi, B, col):
+        def area_part2_punch(D, phi, B, colx, coly):
             d = d_avg(D, phi, cover)
-            Ap2 = (B * B) - (((col + 4 * d) ** 2) - (4 * (d ** 2)) * (4 - pi))
+            Ap2 = (B * B) - ((((4 * d) + coly) * colx) + (4 * d * coly) + (pi * d * d * 4))
             if Ap2 > 0:
                 return Ap2
             else:
@@ -54,19 +55,19 @@ def bearing_c_iso(DL, LL, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, covr):
             As_wide = B * d
             ved_wide = (sig_s * Ap2_wide) / As_wide
             return ved_wide, vrd, k, vrd_min, Ap2_wide, As_wide
-        def ved_vrd_punch(D, phi, fck, B, col, sig_s, rho):
+        def ved_vrd_punch(D, phi, fck, B, colx, coly, sig_s, rho):
             d = d_avg(D, phi, cover)
             k = kay(D, phi)
             vrd_a = (0.12 * k * ((100 * rho * fck) ** (1 / 3))) * 1000
             vrd_min = (0.035 * (k ** 1.5) * (fck ** 0.5)) * 1000
             vrd = max(vrd_a, vrd_min)
-            Ap2_punch = area_part2_punch(D, phi, B, col)
-            As_punch = ((4 * col) + (4 * pi * d)) * d
+            Ap2_punch = area_part2_punch(D, phi, B, colx, coly)
+            As_punch = ((2 * colx) + (2 * coly) + (4 * pi * d)) * d
             ved_punch = (sig_s * Ap2_punch) / As_punch
             return ved_punch, vrd, k, vrd_min, Ap2_punch, As_punch
         def sig_prop(B, D, col, Df, DL, LL, mxp, mxv, myp, myv):
             SW_conc = 24 * B * B * D
-            SW_fill = (((B * B) - (col * col))) * Df * 0
+            SW_fill = (((B * B) - (col * col))) * Df * 0 # change colx and coly if used
             SW = SW_conc + SW_fill
             p_p = DL + SW + LL
             ex = abs((myp + myv) / p_p)
@@ -99,7 +100,7 @@ def bearing_c_iso(DL, LL, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, covr):
             p_s = (1.35 * DL) + (1.5 * LL)
             sig_s = p_s / (B * B)
             ved_wide, vrd, k_wide, vrd_min_wide, Ap2_wide, As_wide = ved_vrd_wide(D, phi, fck, B, col, sig_s, rho)
-            ved_punch, vrd, k_punch, vrd_min_punch, Ap2_punch, As_punch = ved_vrd_punch(D, phi, fck, B, col, sig_s, rho)
+            ved_punch, vrd, k_punch, vrd_min_punch, Ap2_punch, As_punch = ved_vrd_punch(D, phi, fck, B, colx, coly, sig_s, rho)
             vrd_start = vrd
             if ved_wide <= vrd:
                 while ved_wide <= vrd:
@@ -116,11 +117,11 @@ def bearing_c_iso(DL, LL, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, covr):
             vrd = vrd_start
             if ved_punch <= vrd:
                 while ved_punch <= vrd:
-                    ved_punch, vrd, k_punch, vrd_min_punch, Ap2_punch, As_punch = ved_vrd_punch(D, phi, fck, B, col, sig_s, rho)
+                    ved_punch, vrd, k_punch, vrd_min_punch, Ap2_punch, As_punch = ved_vrd_punch(D, phi, fck, B, colx, coly, sig_s, rho)
                     D -= 0.000005
             else:
                 while ved_punch >= vrd:
-                    ved_punch, vrd, k_punch, vrd_min_punch, Ap2_punch, As_punch = ved_vrd_punch(D, phi, fck, B, col, sig_s, rho)
+                    ved_punch, vrd, k_punch, vrd_min_punch, Ap2_punch, As_punch = ved_vrd_punch(D, phi, fck, B, colx, coly, sig_s, rho)
                     D += 0.000005
             D_punch = D
             d_punch = d_avg(D_punch, phi, cover)

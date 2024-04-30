@@ -65,6 +65,7 @@ def clay_soil_results():
     myp = request.form['myp']
     myv = request.form['myv']
     col = request.form['COL']
+    coly = request.form['COLY']
     cu = request.form['CU']
     df = request.form['DF']
     gam = request.form['GAM']
@@ -72,7 +73,7 @@ def clay_soil_results():
     fyk = request.form['FYK']
     bar = request.form['BAR']
     cov = request.form['COV']
-    var_list = [dl, ll, mxp, mxv, myp, myv, col, cu, df, gam, fck, fyk, bar, cov]
+    var_list = [dl, ll, mxp, mxv, myp, myv, col, coly, cu, df, gam, fck, fyk, bar, cov]
 	
     def is_float(value):
         try:
@@ -93,6 +94,7 @@ def clay_soil_results():
         myp = float(request.form['myp'])
         myv = float(request.form['myv'])
         col = float(request.form['COL'])
+        coly = float(request.form['COLY'])
         cu = float(request.form['CU'])
         df = float(request.form['DF'])
         gam = float(request.form['GAM'])
@@ -107,14 +109,14 @@ def clay_soil_results():
             D_final, d_final, sig_s, d_wide, d_punch, vrd_wide, vrd_punch,\
             k_wide, vrd_min_wide, Ap2_wide, As_wide, k_punch, vrd_min_punch,\
             Ap2_punch, As_punch, rho_final, z, As_old, Asmin\
-                = clay_iso(dl, ll, mxp, mxv, myp, myv, col, cu, df, gam, fck, fyk, bar, cov)
+                = clay_iso(dl, ll, mxp, mxv, myp, myv, col, coly, cu, df, gam, fck, fyk, bar, cov)
         if submit_type == 'regular':
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
                 return render_template('result.html', b=b, d=d, As=As, N=N, s=s,\
                             qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv,\
-                            col=col, cu=cu, df=df, gam=gam, fck=fck,\
+                            col=col, coly=coly, cu=cu, df=df, gam=gam, fck=fck,\
                             fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
                             D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
                             mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
@@ -130,7 +132,7 @@ def clay_soil_results():
                 else:
                     return render_template('result_adv.html', b=b, d=d, As=As, N=N, s=s,\
                             qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv,\
-                            col=col, cu=cu, df=df, gam=gam, fck=fck,\
+                            col=col, coly=coly, cu=cu, df=df, gam=gam, fck=fck,\
                             fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
                             D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
                             mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
@@ -154,6 +156,7 @@ def sand_soil_results():
     myp = request.form['myp']
     myv = request.form['myv']
     col = request.form['COL']
+    coly = request.form['COLY']
     phi = request.form['PHI']
     df = request.form['DF']
     gam = request.form['GAM']
@@ -161,7 +164,7 @@ def sand_soil_results():
     fyk = request.form['FYK']
     bar = request.form['BAR']
     cov = request.form['COV']
-    var_list = [dl, ll, mxp, mxv, myp, myv, col, phi, df, gam, fck, fyk, bar, cov]
+    var_list = [dl, ll, mxp, mxv, myp, myv, col, coly, phi, df, gam, fck, fyk, bar, cov]
 	
     def is_float(value):
         try:
@@ -182,6 +185,7 @@ def sand_soil_results():
         myp = float(request.form['myp'])
         myv = float(request.form['myv'])
         col = float(request.form['COL'])
+        coly = float(request.form['COLY'])
         phi = float(request.form['PHI'])
         df = float(request.form['DF'])
         gam = float(request.form['GAM'])
@@ -196,14 +200,14 @@ def sand_soil_results():
             D_final, d_final, sig_s, d_wide, d_punch, vrd_wide, vrd_punch,\
             k_wide, vrd_min_wide, Ap2_wide, As_wide, k_punch, vrd_min_punch,\
             Ap2_punch, As_punch, rho_final, z, As_old, Asmin, Nc, Nq, Ngamma\
-                = sand_iso(dl, ll, mxp, mxv, myp, myv, col, phi, df, gam, fck, fyk, bar, cov)
+                = sand_iso(dl, ll, mxp, mxv, myp, myv, col, coly, phi, df, gam, fck, fyk, bar, cov)
         if submit_type == 'regular':
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
                 return render_template('result.html', b=b, d=d, As=As, N=N, s=s,\
                             qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv,\
-                            col=col, phi=phi, df=df, gam=gam, fck=fck,\
+                            col=col, coly=coly, phi=phi, df=df, gam=gam, fck=fck,\
                             fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
                             D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
                             mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
@@ -219,7 +223,7 @@ def sand_soil_results():
                 else:
                     return render_template('result_adv.html', b=b, d=d, As=As, N=N, s=s,\
                             qa=qa, fs=fs, qu=qu, dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv,\
-                            col=col, phi=phi, df=df, gam=gam, fck=fck,\
+                            col=col, coly=coly, phi=phi, df=df, gam=gam, fck=fck,\
                             fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
                             D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
                             mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
@@ -243,12 +247,13 @@ def bearing_cap_results():
     myp = request.form['myp']
     myv = request.form['myv']
     col = request.form['COL']
+    coly = request.form['COLY']
     bc = request.form['BC']
     fck = request.form['FCK']
     fyk = request.form['FYK']
     bar = request.form['BAR']
     cov = request.form['COV']
-    var_list = [dl, ll, col, mxp, mxv, myp, myv, bc, fck, fyk, bar, cov]
+    var_list = [dl, ll, col, coly, mxp, mxv, myp, myv, bc, fck, fyk, bar, cov]
 	
     def is_float(value):
         try:
@@ -269,6 +274,7 @@ def bearing_cap_results():
         myp = float(request.form['myp'])
         myv = float(request.form['myv'])
         col = float(request.form['COL'])
+        coly = float(request.form['COLY'])
         bc = float(request.form['BC'])
         fck = float(request.form['FCK'])
         fyk = float(request.form['FYK'])
@@ -281,13 +287,13 @@ def bearing_cap_results():
             D_final, d_final, sig_s, d_wide, d_punch, vrd_wide, vrd_punch,\
             k_wide, vrd_min_wide, Ap2_wide, As_wide, k_punch, vrd_min_punch,\
             Ap2_punch, As_punch, rho_final, z, As_old, Asmin\
-                = bearing_c_iso(dl, ll, mxp, mxv, myp, myv, col, bc, fck, fyk, bar, cov)
+                = bearing_c_iso(dl, ll, mxp, mxv, myp, myv, col, coly, bc, fck, fyk, bar, cov)
         if submit_type == 'regular':
             if b == 0:
                 return render_template('result.html', text="You", user=current_user)
             else:
                 return render_template('result.html', b=b, d=d, As=As, N=N, s=s,\
-                            dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv, col=col, bc=bc, fck=fck,\
+                            dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv, col=col, coly=coly, bc=bc, fck=fck,\
                             fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
                             D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
                             mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
@@ -302,7 +308,7 @@ def bearing_cap_results():
                     return render_template('result.html', text="You", user=current_user)
                 else:
                     return render_template('result_adv.html',b=b, d=d, As=As, N=N, s=s,\
-                            dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv, col=col, bc=bc, fck=fck,\
+                            dl=dl, ll=ll, mxp=mxp, mxv=mxv, myp=myp, myv=myv, col=col, coly=coly, bc=bc, fck=fck,\
                             fyk=fyk, bar=bar, cov=cov, p_s=p_s, ex=ex, ey=ey, sig_p=sig_p, D_wide=D_wide,\
                             D_punch=D_punch, ved_wide=ved_wide, ved_punch=ved_punch, vrd=vrd, med=med,\
                             mrd=mrd, rho_min=rho_min, SW_conc=SW_conc, SW_fill=SW_fill, B_final=B_final,\
